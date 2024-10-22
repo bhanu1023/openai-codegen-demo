@@ -1,4 +1,4 @@
-package dev.bhanu.api;
+package dev.bhanu.services;
 
 import dev.bhanu.model.*;
 import dt.tworld.bff.genericexception.constants.PodType;
@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 @AllArgsConstructor
-public class PartnerSubscriptionsApiServiceImpl implements PartnerSubscriptionsApiService {
+public class UpdateServicesApiServiceImpl implements UpdateServicesApiService {
         private final RestService restService;
         private final HttpServletRequest request;
         private final SalesRequestUtil requestUtil;
@@ -26,7 +26,7 @@ public class PartnerSubscriptionsApiServiceImpl implements PartnerSubscriptionsA
         private final JsonHelper jsonHelper;
         @Override
         @CircuitBreaker(name = "sales")
-        public ResponseWrapper<PartnerSubscriptionResponse> apiToGetPartnerSubscriptionsDetails(PartnerSubscriptionRequest data) {
+        public ResponseWrapper<ChangePlanResponse> apiToUpdatePlanServicesDatapass(ChangePlanRequest data) {
 
         RequestHeadersAndUrl requestHeadersAndUrl = requestUtil.getRequestHeadersAndUrl(
             requestUtil.buildRequestContext(SalesRequestUtil.getHeaders(request),"url",
@@ -34,10 +34,10 @@ public class PartnerSubscriptionsApiServiceImpl implements PartnerSubscriptionsA
             data));
 
         ResponseEntity<String> response = restService.callBackendService(
-            requestHeadersAndUrl.getUrl(), HttpMethod.POST, data,
+            requestHeadersAndUrl.getUrl(), HttpMethod.valueOf(request.getMethod().toString()), data,
             requestHeadersAndUrl.getHttpHeaders(),
             null, PodType.SALES.name(), AAL);
             return ResponseWrapper.toResponseWrapper(jsonHelper.parseResponse(
-            response.getBody(), PartnerSubscriptionResponse.class), response);
+            response.getBody(), ChangePlanResponse.class), response);
         }
 }

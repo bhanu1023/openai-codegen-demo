@@ -1,4 +1,4 @@
-package dev.bhanu.api;
+package dev.bhanu.services;
 
 import dev.bhanu.model.*;
 import dt.tworld.bff.genericexception.constants.PodType;
@@ -34,7 +34,7 @@ public class ServicesApiServiceImpl implements ServicesApiService {
             data));
 
         ResponseEntity<String> response = restService.callBackendService(
-            requestHeadersAndUrl.getUrl(), HttpMethod.POST, data,
+            requestHeadersAndUrl.getUrl(), HttpMethod.valueOf(request.getMethod().toString()), data,
             requestHeadersAndUrl.getHttpHeaders(),
             null, PodType.SALES.name(), AAL);
             return ResponseWrapper.toResponseWrapper(jsonHelper.parseResponse(

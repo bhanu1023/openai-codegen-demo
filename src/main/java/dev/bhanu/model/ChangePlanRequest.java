@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "ChangePlanRequest", description = "request for change plan/service/datapass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-10-23T01:19:46.548500+05:30[Asia/Kolkata]", comments = "Generator version: 7.9.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-10-23T01:48:13.122437+05:30[Asia/Kolkata]", comments = "Generator version: 7.9.0")
 public class ChangePlanRequest {
 
   private JsonNullable<@Pattern(regexp = "^\\d{10}$") String> msisdn = JsonNullable.<String>undefined();
