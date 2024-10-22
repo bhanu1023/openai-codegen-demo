@@ -1,0 +1,12 @@
+package {{package}};
+
+import dev.bhanu.model.*;
+import dt.tworld.sales.adapter.util.ResponseWrapper;
+
+public interface {{classname}}Service {
+{{#operations}}
+    {{#operation}}
+        public ResponseWrapper<{{returnType}}> {{operationId}}({{bodyParam.dataType}} data);
+    {{/operation}}
+{{/operations}}
+}

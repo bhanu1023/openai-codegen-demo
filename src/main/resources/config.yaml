@@ -1,0 +1,11 @@
+templateDir: src/main/resources/JavaSpring
+outputDir: ./
+files:
+  service.mustache:
+    templateType: API
+    destinationFilename: ServiceImpl.java
+  service-interface.mustache:
+    templateType: API
+    destinationFilename: Service.java
+apiPackage: dev.bhanu.api
+modelPackage: dev.bhanu.model

@@ -1,0 +1,3838 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: dab_team@T-Mobile.com
+    name: DAB Team
+  description: Services related APIs
+  title: Services
+  version: 1.0.0
+  x-type-of-consumer: EU
+  x-breadth-of-consumption: ANY
+  x-data-sensitivity: Restricted
+servers:
+- url: https://dab-plans-services:9000/v1
+paths:
+  /services:
+    post:
+      description: Get current and eligible services including data passes
+      operationId: services
+      parameters:
+      - in: header
+        name: Accept-Language
+        schema:
+          type: string
+      - description: Bearer prefix JWT Token
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Taap compliant POPT Token.
+        in: header
+        name: X-Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Id token.
+        in: header
+        name: X-Auth-Originator
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - in: header
+        name: app-version
+        schema:
+          type: string
+      - in: header
+        name: device-oem
+        schema:
+          type: string
+      - in: header
+        name: device-model
+        schema:
+          type: string
+      - in: header
+        name: device-os
+        schema:
+          type: string
+      - in: header
+        name: device-os-version
+        schema:
+          type: string
+      - in: header
+        name: os-language
+        schema:
+          type: string
+      - in: header
+        name: timestamp
+        schema:
+          type: string
+      - in: header
+        name: channel-id
+        schema:
+          type: string
+      - in: header
+        name: origin-application-id
+        schema:
+          type: string
+      - in: header
+        name: application-id
+        schema:
+          type: string
+      - in: header
+        name: session-id
+        schema:
+          type: string
+      - in: header
+        name: interaction-id
+        schema:
+          type: string
+      - in: header
+        name: activity-id
+        schema:
+          type: string
+      - in: header
+        name: Content-Type
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicesRequest'
+        description: services
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicesResponse'
+          description: services
+          headers:
+            Cache-Control:
+              description: Cache-control
+              schema:
+                pattern: .*$
+                type: string
+            Date:
+              description: time stamp of response generation
+              schema:
+                pattern: .*$
+                type: string
+        "400":
+          content: {}
+          description: Bad request
+        "401":
+          content: {}
+          description: Unauthorized
+        "403":
+          content: {}
+          description: Client access denied
+        "500":
+          content: {}
+          description: Internal server error
+      security:
+      - OAuth2: []
+      summary: Get services
+      tags:
+      - services
+      x-data-sensitivity: Restricted
+      x-api-pattern: ExecuteFunction
+      x-codegen-request-body-name: services
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: services
+  /review-services:
+    post:
+      operationId: api to review plan/services/datapass
+      parameters:
+      - in: header
+        name: Accept-Language
+        schema:
+          type: string
+      - description: Bearer prefix JWT Token
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Taap compliant POPT Token.
+        in: header
+        name: X-Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Id token.
+        in: header
+        name: X-Auth-Originator
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - in: header
+        name: app-version
+        schema:
+          type: string
+      - in: header
+        name: device-oem
+        schema:
+          type: string
+      - in: header
+        name: device-model
+        schema:
+          type: string
+      - in: header
+        name: device-os
+        schema:
+          type: string
+      - in: header
+        name: device-os-version
+        schema:
+          type: string
+      - in: header
+        name: os-language
+        schema:
+          type: string
+      - in: header
+        name: timestamp
+        schema:
+          type: string
+      - in: header
+        name: channel-id
+        schema:
+          type: string
+      - in: header
+        name: origin-application-id
+        schema:
+          type: string
+      - in: header
+        name: application-id
+        schema:
+          type: string
+      - in: header
+        name: session-id
+        schema:
+          type: string
+      - in: header
+        name: interaction-id
+        schema:
+          type: string
+      - in: header
+        name: activity-id
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewServicesRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewServicesResponse'
+          description: Ok
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "400":
+          content:
+            application/json:
+              example:
+                code: "400"
+                userMessage: Bad Request
+                systemMessage: Bad Request
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "401":
+          content:
+            application/json:
+              example:
+                code: "401"
+                userMessage: Unauthorized
+                systemMessage: Unauthorized
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "403":
+          content:
+            application/json:
+              example:
+                exception: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                path: "ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102"
+                message: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                error: FORBIDDEN
+                timestamp: Thu Jun 27 22:35:14 UTC 2019
+                status: "403"
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ProducerId is not authorized to publish event in env or Event
+            not associated with any Team name in DEEP.io Registry
+        "404":
+          content:
+            application/json:
+              example:
+                code: "404"
+                userMessage: Resource not found
+                systemMessage: Resource not found
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Resource not found
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "405":
+          content:
+            application/json:
+              example:
+                code: "405"
+                userMessage: Method Not Allowed
+                systemMessage: Method Not Allowed
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Method Not Allowed
+          headers:
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+            Allow:
+              description: list of supported methods for URI
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "406":
+          content:
+            application/json:
+              example:
+                code: "406"
+                userMessage: Mismatching data format
+                systemMessage: Mismatching data format
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Mismatching data format
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "500":
+          content:
+            application/json:
+              example:
+                code: "500"
+                userMessage: System Error
+                systemMessage: System Error
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Internal Server Error
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "503":
+          content:
+            application/json:
+              example:
+                code: "503"
+                userMessage: Service unavailable
+                systemMessage: Service unavailable
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Service unavailable
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+      security:
+      - OAuth2: []
+      summary: "Review Added/Removed plan, data and services"
+      tags:
+      - services
+      x-api-pattern: queryResource
+      x-codegen-request-body-name: body
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: services
+  /update-services:
+    post:
+      operationId: api to update plan/services/datapass
+      parameters:
+      - in: header
+        name: Accept-Language
+        schema:
+          type: string
+      - description: Bearer prefix JWT Token
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Taap compliant POPT Token.
+        in: header
+        name: X-Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Id token.
+        in: header
+        name: X-Auth-Originator
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - in: header
+        name: app-version
+        schema:
+          type: string
+      - in: header
+        name: device-oem
+        schema:
+          type: string
+      - in: header
+        name: device-model
+        schema:
+          type: string
+      - in: header
+        name: device-os
+        schema:
+          type: string
+      - in: header
+        name: device-os-version
+        schema:
+          type: string
+      - in: header
+        name: os-language
+        schema:
+          type: string
+      - in: header
+        name: timestamp
+        schema:
+          type: string
+      - in: header
+        name: channel-id
+        schema:
+          type: string
+      - in: header
+        name: origin-application-id
+        schema:
+          type: string
+      - in: header
+        name: application-id
+        schema:
+          type: string
+      - in: header
+        name: session-id
+        schema:
+          type: string
+      - in: header
+        name: interaction-id
+        schema:
+          type: string
+      - in: header
+        name: activity-id
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePlanRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangePlanResponse'
+          description: Ok
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "400":
+          content:
+            application/json:
+              example:
+                code: "400"
+                userMessage: Bad Request
+                systemMessage: Bad Request
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "401":
+          content:
+            application/json:
+              example:
+                code: "401"
+                userMessage: Unauthorized
+                systemMessage: Unauthorized
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "403":
+          content:
+            application/json:
+              example:
+                exception: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                path: "ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102"
+                message: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                error: FORBIDDEN
+                timestamp: Thu Jun 27 22:35:14 UTC 2019
+                status: "403"
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ProducerId is not authorized to publish event in env or Event
+            not associated with any Team name in DEEP.io Registry
+        "404":
+          content:
+            application/json:
+              example:
+                code: "404"
+                userMessage: Resource not found
+                systemMessage: Resource not found
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Resource not found
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "405":
+          content:
+            application/json:
+              example:
+                code: "405"
+                userMessage: Method Not Allowed
+                systemMessage: Method Not Allowed
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Method Not Allowed
+          headers:
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+            Allow:
+              description: list of supported methods for URI
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "406":
+          content:
+            application/json:
+              example:
+                code: "406"
+                userMessage: Mismatching data format
+                systemMessage: Mismatching data format
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Mismatching data format
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "500":
+          content:
+            application/json:
+              example:
+                code: "500"
+                userMessage: System Error
+                systemMessage: System Error
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: System Error
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "503":
+          content:
+            application/json:
+              example:
+                code: "503"
+                userMessage: Service unavailable
+                systemMessage: Service unavailable
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Service unavailable
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+      security:
+      - OAuth2: []
+      summary: Change plan and services
+      tags:
+      - services
+      x-api-pattern: queryResource
+      x-codegen-request-body-name: body
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: services
+  /partner-subscriptions:
+    post:
+      operationId: api to get partner subscriptions details
+      parameters:
+      - in: header
+        name: Accept-Language
+        schema:
+          type: string
+      - description: Bearer prefix JWT Token
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Taap compliant POPT Token.
+        in: header
+        name: X-Authorization
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - description: Id token.
+        in: header
+        name: X-Auth-Originator
+        required: true
+        schema:
+          pattern: .*$
+          type: string
+      - in: header
+        name: app-version
+        schema:
+          type: string
+      - in: header
+        name: device-oem
+        schema:
+          type: string
+      - in: header
+        name: device-model
+        schema:
+          type: string
+      - in: header
+        name: device-os
+        schema:
+          type: string
+      - in: header
+        name: device-os-version
+        schema:
+          type: string
+      - in: header
+        name: os-language
+        schema:
+          type: string
+      - in: header
+        name: timestamp
+        schema:
+          type: string
+      - in: header
+        name: channel-id
+        schema:
+          type: string
+      - in: header
+        name: origin-application-id
+        schema:
+          type: string
+      - in: header
+        name: application-id
+        schema:
+          type: string
+      - in: header
+        name: session-id
+        schema:
+          type: string
+      - in: header
+        name: interaction-id
+        schema:
+          type: string
+      - in: header
+        name: activity-id
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerSubscriptionRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                subscriptionDetails:
+                - soc: NOADNFLX2
+                  socName: Netflix Standard
+                  partnerActivationUrl: https://
+                  provisioningStatus: ACTIVE
+                  price: "15.99"
+                  displayPrice: "15.99"
+              schema:
+                $ref: '#/components/schemas/PartnerSubscriptionResponse'
+          description: Ok
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "206":
+          content:
+            application/json:
+              example:
+                subscriptionDetails:
+                - soc: NOADNFLX2
+                  socName: Netflix Standard
+                  partnerActivationUrl: https://
+                  provisioningStatus: ACTIVE
+                  price: "15.99"
+                  displayPrice: "15.99"
+                partnerFailures:
+                - partnerName: APPLE
+                  code: "0003"
+                  userMessage: "Unable to retrieve information from backend System,\
+                    \ Please re-try later."
+              schema:
+                $ref: '#/components/schemas/PartnerSubscriptionResponse'
+          description: "Partial Content, returned when unable to retrieve information\
+            \ from one of the backend."
+          headers:
+            Cache-Control:
+              description: Cache policy supported for the resource by the server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "400":
+          content:
+            application/json:
+              example:
+                code: "400"
+                userMessage: Bad Request
+                systemMessage: Bad Request
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Bad Request
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "401":
+          content:
+            application/json:
+              example:
+                code: "401"
+                userMessage: Unauthorized
+                systemMessage: Unauthorized
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "403":
+          content:
+            application/json:
+              example:
+                exception: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                path: "ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102"
+                message: "To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes\
+                  \ and look for error the specific error code."
+                error: FORBIDDEN
+                timestamp: Thu Jun 27 22:35:14 UTC 2019
+                status: "403"
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ProducerId is not authorized to publish event in env or Event
+            not associated with any Team name in DEEP.io Registry
+        "404":
+          content:
+            application/json:
+              example:
+                code: "404"
+                userMessage: Resource not found
+                systemMessage: Resource not found
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Resource not found
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "405":
+          content:
+            application/json:
+              example:
+                code: "405"
+                userMessage: Method Not Allowed
+                systemMessage: Method Not Allowed
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Method Not Allowed
+          headers:
+            service-transaction-id:
+              description: Request ID echoed back by server
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+            Allow:
+              description: list of supported methods for URI
+              schema:
+                maxLength: 256
+                minLength: 1
+                pattern: "^[\\S]*$"
+                type: string
+        "406":
+          content:
+            application/json:
+              example:
+                code: "406"
+                userMessage: Mismatching data format
+                systemMessage: Mismatching data format
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Mismatching data format
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "500":
+          content:
+            application/json:
+              example:
+                code: "500"
+                userMessage: System Error
+                systemMessage: System Error
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: System Error
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+        "503":
+          content:
+            application/json:
+              example:
+                code: "503"
+                userMessage: Service unavailable
+                systemMessage: Service unavailable
+                detailLink: http://www.tmus.com
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Service unavailable
+          headers:
+            Date:
+              description: The Date general HTTP header contains the date and time
+                at which the message was originated.
+              schema:
+                format: date-time
+                type: string
+      security:
+      - OAuth2: []
+      summary: Get details for partner subscriptions
+      tags:
+      - services
+      x-api-pattern: queryResource
+      x-codegen-request-body-name: body
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: services
+components:
+  parameters:
+    AcceptLanguageParam:
+      in: header
+      name: Accept-Language
+      schema:
+        type: string
+    AuthorizationParam:
+      description: Bearer prefix JWT Token
+      example: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        pattern: .*$
+        type: string
+    X_AuthorizationParam:
+      description: Taap compliant POPT Token.
+      example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+      in: header
+      name: X-Authorization
+      required: true
+      schema:
+        pattern: .*$
+        type: string
+    X_AuthOriginatorParam:
+      description: Id token.
+      example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+      in: header
+      name: X-Auth-Originator
+      required: true
+      schema:
+        pattern: .*$
+        type: string
+    AppVersionParam:
+      in: header
+      name: app-version
+      schema:
+        type: string
+    DeviceOemParam:
+      in: header
+      name: device-oem
+      schema:
+        type: string
+    DeviceModelParam:
+      in: header
+      name: device-model
+      schema:
+        type: string
+    DeviceOsParam:
+      in: header
+      name: device-os
+      schema:
+        type: string
+    DeviceOsVersionParam:
+      in: header
+      name: device-os-version
+      schema:
+        type: string
+    OsLanguageParam:
+      in: header
+      name: os-language
+      schema:
+        type: string
+    SessionIdParam:
+      in: header
+      name: session-id
+      schema:
+        type: string
+    InteractionIdParam:
+      in: header
+      name: interaction-id
+      schema:
+        type: string
+    ActivityIdParam:
+      in: header
+      name: activity-id
+      schema:
+        type: string
+    TimestampParam:
+      in: header
+      name: timestamp
+      schema:
+        type: string
+    ChannelIdParam:
+      in: header
+      name: channel-id
+      schema:
+        type: string
+    OriginApplicationIdParam:
+      in: header
+      name: origin-application-id
+      schema:
+        type: string
+    ApplicationIdParam:
+      in: header
+      name: application-id
+      schema:
+        type: string
+  schemas:
+    Error:
+      description: Error object
+      example:
+        userMessage: userMessage
+        systemMessage: systemMessage
+        code: code
+      properties:
+        code:
+          description: code for error
+          type: string
+        systemMessage:
+          description: system message for error
+          type: string
+        userMessage:
+          description: user message
+          type: string
+      type: object
+    ServicesRequest:
+      description: Request to get services
+      example:
+        serviceSubTypeFilter: Handset Protection and Upgrade/Video Streaming - only
+          for services and not subscriptions
+        fetchSubscriptions: true
+        msisdn: "1234567890"
+        subCategoriesFilter:
+        - Insurance
+        - Extended Warranty
+        - Mobile Security
+        - Upgrade Program
+        fetchPlanDataServices: true
+        fetchDataPasses: true
+      properties:
+        msisdn:
+          example: "1234567890"
+          type: string
+        fetchSubscriptions:
+          example: true
+          type: boolean
+        fetchDataPasses:
+          example: true
+          type: boolean
+        fetchPlanDataServices:
+          example: true
+          type: boolean
+        serviceSubTypeFilter:
+          example: Handset Protection and Upgrade/Video Streaming - only for services
+            and not subscriptions
+          type: string
+        subCategoriesFilter:
+          example:
+          - Insurance
+          - Extended Warranty
+          - Mobile Security
+          - Upgrade Program
+          items:
+            type: string
+          type: array
+      type: object
+    ServicesResponse:
+      description: Services response
+      example:
+        currentDataPasses:
+        - soc: INTL24NA
+          usage: 15.3
+          expirationStatus: UPCOMING
+          dataPassGroup: dataPassGroup
+          expiryDate: 2024-08-31
+          beginDate: 2024-08-30
+          unit: MB/GB
+          price: 5.15
+          name: 1 Day (512MB) International Data Pass
+          limit: 15360.0
+          expiryTime: 10:08 AM PT
+          serviceSequenceNumber: "404549875"
+          beginTime: 10:08 AM PT
+        - soc: INTL24NA
+          usage: 15.3
+          expirationStatus: UPCOMING
+          dataPassGroup: dataPassGroup
+          expiryDate: 2024-08-31
+          beginDate: 2024-08-30
+          unit: MB/GB
+          price: 5.15
+          name: 1 Day (512MB) International Data Pass
+          limit: 15360.0
+          expiryTime: 10:08 AM PT
+          serviceSequenceNumber: "404549875"
+          beginTime: 10:08 AM PT
+        eligibleSubscriptions:
+        - imageText: Netflix
+          subscriptionGroup: Netflix. This field should not be used for display since
+            it could be not user friendly e.g. AppleTVOnUs.
+          subscriptionPlans:
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          imageUrl: https://...
+          largeImageUrl: https://...
+          name: Netflix. This field should not be used for display since it could
+            be not user friendly e.g. AppleTVOnUs.
+        - imageText: Netflix
+          subscriptionGroup: Netflix. This field should not be used for display since
+            it could be not user friendly e.g. AppleTVOnUs.
+          subscriptionPlans:
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          imageUrl: https://...
+          largeImageUrl: https://...
+          name: Netflix. This field should not be used for display since it could
+            be not user friendly e.g. AppleTVOnUs.
+        planDataServices:
+        - isPendingRemoval: true
+          socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          soc: MPUDAT40
+          displayName: Unlimited Promo
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          subCategories:
+          - Data Service
+          platforms:
+          - iOS
+          - Windows
+          - Android
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          isPendingAddition: true
+          taxTreatment: TI
+          displayPrice: 5.99
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          price: 5.99
+          name: MAXUp Data with 40GB of Hotspot Data
+          isSelected: true
+          pendingChangeEffectiveDate: 2024-09-14
+          serviceSubType: Data Service
+          serviceSequenceNumber: "404549855"
+          isShared: true
+          isMandatory: true
+          effectiveDate: 2024-09-14
+          prerequisiteServiceSocs:
+          - HDPASS
+        - isPendingRemoval: true
+          socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          soc: MPUDAT40
+          displayName: Unlimited Promo
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          subCategories:
+          - Data Service
+          platforms:
+          - iOS
+          - Windows
+          - Android
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          isPendingAddition: true
+          taxTreatment: TI
+          displayPrice: 5.99
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          price: 5.99
+          name: MAXUp Data with 40GB of Hotspot Data
+          isSelected: true
+          pendingChangeEffectiveDate: 2024-09-14
+          serviceSubType: Data Service
+          serviceSequenceNumber: "404549855"
+          isShared: true
+          isMandatory: true
+          effectiveDate: 2024-09-14
+          prerequisiteServiceSocs:
+          - HDPASS
+        eligibleDataPasses:
+        - duration: 24.0
+          unit: GB
+          isImmediateFlag: true
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          soc: INTL24NA
+          price: 5.99
+          name: 1 Day (512MB) International Data Pass
+          limit: 512.99
+          description: "For up to 24 hours in 215+ destinations, you get: <ul><li>Up\
+            \ to 512MB of high-speed international data, this data can also be used\
+            \ as a Mobile Hotspot.</li><li>Unlimited calling. </li></ul>Note: Once\
+            \ you use all your high-speed data, you will continue to have unlimited\
+            \ calling and data for the full 24 hours but may experience slower data\
+            \ speeds. If you use all your high-speed data and purchase a NEW pass\
+            \ before the expiration of the first one, your second pass will begin\
+            \ immediately. Your original pass and any remaining benefits will expire\
+            \ when you activate the new pass. Speeds & coverage vary based on device\
+            \ and country. Qualifying plan required."
+          dataPassGroup: dataPassGroup
+          durationUnit: HOURS
+          selectedDataPassEffectiveDate: 2024-08-22T15:57:48.000-07:00
+        - duration: 24.0
+          unit: GB
+          isImmediateFlag: true
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          soc: INTL24NA
+          price: 5.99
+          name: 1 Day (512MB) International Data Pass
+          limit: 512.99
+          description: "For up to 24 hours in 215+ destinations, you get: <ul><li>Up\
+            \ to 512MB of high-speed international data, this data can also be used\
+            \ as a Mobile Hotspot.</li><li>Unlimited calling. </li></ul>Note: Once\
+            \ you use all your high-speed data, you will continue to have unlimited\
+            \ calling and data for the full 24 hours but may experience slower data\
+            \ speeds. If you use all your high-speed data and purchase a NEW pass\
+            \ before the expiration of the first one, your second pass will begin\
+            \ immediately. Your original pass and any remaining benefits will expire\
+            \ when you activate the new pass. Speeds & coverage vary based on device\
+            \ and country. Qualifying plan required."
+          dataPassGroup: dataPassGroup
+          durationUnit: HOURS
+          selectedDataPassEffectiveDate: 2024-08-22T15:57:48.000-07:00
+        isLineInvoluntarySuspended: true
+        currentMonthlyTotal: 22.12
+        currentDate: 2024-08-22
+        passLimitExceededCatList:
+        - ON_NETWORK_TETHERING_ONLY
+        isBanVoluntarySuspended: true
+        activeSubscriptions:
+        - imageText: Netflix
+          subscriptionPlans:
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          partnerActivationUrl: https://www.netflix.com/partner/home?ptoken=abc
+          soc: 500GBG1
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isActive: true
+          isPendingAddition: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          taxTreatment: TI
+          displayPrice: 5.99
+          price: 5.99
+          imageUrl: https://...
+          largeImageUrl: https://...
+          name: Google One 500GB
+          serviceSequenceNumber: "404549875"
+          isPartnerStatusApiFailure: true
+          effectiveDate: 2023-06-13
+        - imageText: Netflix
+          subscriptionPlans:
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          - soc: 500GBG1
+            displayName: displayName
+            partnerTermsAndConditionText: partnerTermsAndConditionText
+            isActive: true
+            subCategories:
+            - Data Service
+            displayPrice: 5.99
+            price: 5.99
+            serviceTrialRemovalMessage: serviceTrialRemovalMessage
+            isSelected: true
+            relatedServices:
+            - soc: soc
+              socName: socName
+            - soc: soc
+              socName: socName
+            serviceSequenceNumber: "404549861"
+            availabilityStatus: ForSale
+            serviceRemovalInfo: serviceRemovalInfo
+            isMandatory: true
+            isPendingRemoval: true
+            level: PRODUCT (Plan level - applicable to all subscribers on the same
+              plan)/SUBSCRIBER (Subscriber level)
+            shortDescription: "Have you backed up your phone lately? Don’t wait till\
+              \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+              \ Google One 500GB storage plan. Get the first 30 days free just for\
+              \ being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+            isRemovablePhp: true
+            planServiceDetails:
+              features:
+              - feature1
+              - feature 2
+              includedServices:
+              - included service 1
+              - included service 2
+              description: "With MAXUp Data you get 40GB total of high-speed mobile\
+                \ hotspot data. After that, you get unlimited mobile hotspot on our\
+                \ network at max 3G speeds. On-device usage is prioritized over tethering\
+                \ usage, which may result in higher speeds for data used on device."
+            subscriptionGroup: Netflix
+            isPendingAddition: true
+            taxTreatment: TI
+            conflictingServiceList:
+            - SOC1
+            - SOC2
+            serviceDisclaimerMessage: serviceDisclaimerMessage
+            name: Google One 500GB
+            serviceSubType: Data Service
+            autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+            effectiveDate: 2023-06-13
+            prerequisiteServiceSocs:
+            - HDPASS
+            freeTrialDescription: freeTrialDescription
+          partnerActivationUrl: https://www.netflix.com/partner/home?ptoken=abc
+          soc: 500GBG1
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isActive: true
+          isPendingAddition: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          taxTreatment: TI
+          displayPrice: 5.99
+          price: 5.99
+          imageUrl: https://...
+          largeImageUrl: https://...
+          name: Google One 500GB
+          serviceSequenceNumber: "404549875"
+          isPartnerStatusApiFailure: true
+          effectiveDate: 2023-06-13
+        isBanInvoluntarySuspended: true
+        currentServices:
+        - planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          displayPrice: 10.15
+          planServiceStatus: REMOVED/CURRENT/FUTURE_DATED
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          soc: MGDATA
+          price: 10.15
+          name: MAXUp Data with 40GB of Hotspot Data
+          serviceSequenceNumber: "404549875"
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          productType: GSM/MBB
+          effectiveDate: 2021-07-30
+          expirationDate: 2024-09-14
+        - planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          displayPrice: 10.15
+          planServiceStatus: REMOVED/CURRENT/FUTURE_DATED
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          soc: MGDATA
+          price: 10.15
+          name: MAXUp Data with 40GB of Hotspot Data
+          serviceSequenceNumber: "404549875"
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          productType: GSM/MBB
+          effectiveDate: 2021-07-30
+          expirationDate: 2024-09-14
+        internationalDataPassLimit: 10.0
+        eligibleServices:
+        - soc: BMMSS
+          displayName: Unlimited Promo
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          subCategories:
+          - Block Messages
+          platforms:
+          - iOS
+          - Windows
+          - Android
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: "404549855"
+          name: Block Chargeable Text and Picture Messages
+          pendingChangeEffectiveDate: 2024-09-14
+          serviceSubType: BLOCKING
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          isShared: true
+          effectiveDate: 2024-09-14
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        - soc: BMMSS
+          displayName: Unlimited Promo
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          subCategories:
+          - Block Messages
+          platforms:
+          - iOS
+          - Windows
+          - Android
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: MAXUp Data with 40GB of Hotspot Data
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: "404549855"
+          name: Block Chargeable Text and Picture Messages
+          pendingChangeEffectiveDate: 2024-09-14
+          serviceSubType: BLOCKING
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          isShared: true
+          effectiveDate: 2024-09-14
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        hasPendingPlansServices: true
+        isLineLevelSuspended: true
+        isTaxInclusive: true
+        isAccountLevelSuspended: true
+        maxFuturePurchaseDays: 30.0
+        hasPendingDatasService: true
+        productType: GSM/MBB
+        banSuspensionDetails:
+          isNonPayment: true
+          pastDueAmount: 100.12
+          isOther: true
+      properties:
+        isLineLevelSuspended:
+          type: boolean
+        isLineInvoluntarySuspended:
+          type: boolean
+        isAccountLevelSuspended:
+          type: boolean
+        isBanInvoluntarySuspended:
+          type: boolean
+        banSuspensionDetails:
+          $ref: '#/components/schemas/BanSuspensionDetails'
+        isBanVoluntarySuspended:
+          type: boolean
+        hasPendingPlansServices:
+          type: boolean
+        hasPendingDatasService:
+          type: boolean
+        currentMonthlyTotal:
+          example: 22.12
+          format: float
+          type: number
+        isTaxInclusive:
+          type: boolean
+        maxFuturePurchaseDays:
+          description: max future purchase days for data passes
+          example: 30.0
+          format: int
+          type: number
+        passLimitExceededCatList:
+          example:
+          - ON_NETWORK_TETHERING_ONLY
+          items:
+            type: string
+          type: array
+        internationalDataPassLimit:
+          description: max active international data passes allowed for a PAH at a
+            time
+          example: 10.0
+          format: int
+          type: number
+        currentDate:
+          example: 2024-08-22
+          type: string
+        productType:
+          example: GSM/MBB
+          type: string
+        currentServices:
+          description: list of services on the account/subscriber
+          items:
+            $ref: '#/components/schemas/CurrentService'
+          type: array
+        currentDataPasses:
+          description: list of data passes on the subscriber
+          items:
+            $ref: '#/components/schemas/CurrentDataPass'
+          type: array
+        activeSubscriptions:
+          description: list of active subscriptions on the account/subscriber
+          items:
+            $ref: '#/components/schemas/ActiveSubscription'
+          type: array
+        eligibleSubscriptions:
+          description: list of eligible subscriptions for the account/subscriber including
+            currently active subscriptions
+          items:
+            $ref: '#/components/schemas/Subscription'
+          type: array
+        planDataServices:
+          description: list of eligible plan data services
+          items:
+            $ref: '#/components/schemas/PlanDataService'
+          type: array
+        eligibleServices:
+          description: list of eligible services for the account/subscriber including
+            currently active subscriptions
+          items:
+            $ref: '#/components/schemas/Service'
+          type: array
+        eligibleDataPasses:
+          description: list of eligible data passes for the subscriber
+          items:
+            $ref: '#/components/schemas/DataPass'
+          type: array
+      type: object
+    CurrentService:
+      description: Service details
+      example:
+        planServiceDetails:
+          features:
+          - feature1
+          - feature 2
+          includedServices:
+          - included service 1
+          - included service 2
+          description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+        displayPrice: 10.15
+        planServiceStatus: REMOVED/CURRENT/FUTURE_DATED
+        level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+          (Subscriber level)
+        soc: MGDATA
+        price: 10.15
+        name: MAXUp Data with 40GB of Hotspot Data
+        serviceSequenceNumber: "404549875"
+        shortDescription: MAXUp Data with 40GB of Hotspot Data
+        productType: GSM/MBB
+        effectiveDate: 2021-07-30
+        expirationDate: 2024-09-14
+      properties:
+        name:
+          example: MAXUp Data with 40GB of Hotspot Data
+          type: string
+        soc:
+          example: MGDATA
+          type: string
+        shortDescription:
+          example: MAXUp Data with 40GB of Hotspot Data
+          type: string
+        planServiceDetails:
+          $ref: '#/components/schemas/PlanServiceDetails'
+        price:
+          example: 10.15
+          format: float
+          type: number
+        displayPrice:
+          example: 10.15
+          format: float
+          type: number
+        planServiceStatus:
+          enum:
+          - REMOVED
+          - CURRENT
+          - FUTURE_DATED
+          example: REMOVED/CURRENT/FUTURE_DATED
+          type: string
+        productType:
+          example: GSM/MBB
+          type: string
+        level:
+          enum:
+          - PRODUCT
+          - SUBSCRIBER
+          example: PRODUCT (Plan level - applicable to all subscribers on the same
+            plan)/SUBSCRIBER (Subscriber level)
+          type: string
+        effectiveDate:
+          example: 2021-07-30
+          type: string
+        expirationDate:
+          example: 2024-09-14
+          type: string
+        serviceSequenceNumber:
+          example: "404549875"
+          type: string
+      type: object
+    CurrentDataPass:
+      description: Details for a data pass currently on the subscription
+      example:
+        soc: INTL24NA
+        usage: 15.3
+        expirationStatus: UPCOMING
+        dataPassGroup: dataPassGroup
+        expiryDate: 2024-08-31
+        beginDate: 2024-08-30
+        unit: MB/GB
+        price: 5.15
+        name: 1 Day (512MB) International Data Pass
+        limit: 15360.0
+        expiryTime: 10:08 AM PT
+        serviceSequenceNumber: "404549875"
+        beginTime: 10:08 AM PT
+      properties:
+        name:
+          example: 1 Day (512MB) International Data Pass
+          type: string
+        soc:
+          example: INTL24NA
+          type: string
+        dataPassGroup:
+          type: string
+        price:
+          example: 5.15
+          format: float
+          type: number
+        limit:
+          example: 15360.0
+          format: float
+          type: number
+        unit:
+          example: MB/GB
+          type: string
+        usage:
+          example: 15.3
+          format: float
+          type: number
+        beginDate:
+          example: 2024-08-30
+          type: string
+        beginTime:
+          example: 10:08 AM PT
+          type: string
+        expirationStatus:
+          enum:
+          - UPCOMING
+          - ACTIVE
+          - EXPIRES_SOON
+          example: UPCOMING
+          type: string
+        expiryDate:
+          example: 2024-08-31
+          type: string
+        expiryTime:
+          example: 10:08 AM PT
+          type: string
+        serviceSequenceNumber:
+          example: "404549875"
+          type: string
+      type: object
+    ActiveSubscription:
+      description: active subscription (selected by the user)
+      example:
+        imageText: Netflix
+        subscriptionPlans:
+        - soc: 500GBG1
+          displayName: displayName
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          isActive: true
+          subCategories:
+          - Data Service
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          serviceSequenceNumber: "404549861"
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: serviceDisclaimerMessage
+          name: Google One 500GB
+          serviceSubType: Data Service
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          effectiveDate: 2023-06-13
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        - soc: 500GBG1
+          displayName: displayName
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          isActive: true
+          subCategories:
+          - Data Service
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          serviceSequenceNumber: "404549861"
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: serviceDisclaimerMessage
+          name: Google One 500GB
+          serviceSubType: Data Service
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          effectiveDate: 2023-06-13
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        partnerActivationUrl: https://www.netflix.com/partner/home?ptoken=abc
+        soc: 500GBG1
+        shortDescription: "Have you backed up your phone lately? Don’t wait till it’\
+          s too late. Hold onto each puppy pic and vacation moment with the Google\
+          \ One 500GB storage plan. Get the first 30 days free just for being a T-Mobile\
+          \ customer. After trial, pay $5/mo. Cancel anytime."
+        isActive: true
+        isPendingAddition: true
+        planServiceDetails:
+          features:
+          - feature1
+          - feature 2
+          includedServices:
+          - included service 1
+          - included service 2
+          description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+        subscriptionGroup: Netflix
+        taxTreatment: TI
+        displayPrice: 5.99
+        price: 5.99
+        imageUrl: https://...
+        largeImageUrl: https://...
+        name: Google One 500GB
+        serviceSequenceNumber: "404549875"
+        isPartnerStatusApiFailure: true
+        effectiveDate: 2023-06-13
+      properties:
+        name:
+          example: Google One 500GB
+          type: string
+        soc:
+          example: 500GBG1
+          type: string
+        price:
+          example: 5.99
+          format: float
+          type: number
+        displayPrice:
+          example: 5.99
+          format: float
+          type: number
+        effectiveDate:
+          example: 2023-06-13
+          type: string
+        isPendingAddition:
+          type: boolean
+        taxTreatment:
+          enum:
+          - TI
+          - TE
+          type: string
+        shortDescription:
+          example: "Have you backed up your phone lately? Don’t wait till it’s too\
+            \ late. Hold onto each puppy pic and vacation moment with the Google One\
+            \ 500GB storage plan. Get the first 30 days free just for being a T-Mobile\
+            \ customer. After trial, pay $5/mo. Cancel anytime."
+          type: string
+        planServiceDetails:
+          $ref: '#/components/schemas/PlanServiceDetails'
+        isActive:
+          type: boolean
+        isPartnerStatusApiFailure:
+          type: boolean
+        partnerActivationUrl:
+          example: https://www.netflix.com/partner/home?ptoken=abc
+          type: string
+        subscriptionGroup:
+          example: Netflix
+          type: string
+        imageUrl:
+          example: https://...
+          type: string
+        largeImageUrl:
+          example: https://...
+          type: string
+        imageText:
+          example: Netflix
+          type: string
+        serviceSequenceNumber:
+          example: "404549875"
+          type: string
+        subscriptionPlans:
+          description: list of subscription plans in the group
+          items:
+            $ref: '#/components/schemas/SubscriptionPlan'
+          type: array
+      type: object
+    SubscriptionPlan:
+      description: subscription plan - selected by the user or available for selection
+      example:
+        soc: 500GBG1
+        displayName: displayName
+        partnerTermsAndConditionText: partnerTermsAndConditionText
+        isActive: true
+        subCategories:
+        - Data Service
+        displayPrice: 5.99
+        price: 5.99
+        serviceTrialRemovalMessage: serviceTrialRemovalMessage
+        isSelected: true
+        relatedServices:
+        - soc: soc
+          socName: socName
+        - soc: soc
+          socName: socName
+        serviceSequenceNumber: "404549861"
+        availabilityStatus: ForSale
+        serviceRemovalInfo: serviceRemovalInfo
+        isMandatory: true
+        isPendingRemoval: true
+        level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+          (Subscriber level)
+        shortDescription: "Have you backed up your phone lately? Don’t wait till it’\
+          s too late. Hold onto each puppy pic and vacation moment with the Google\
+          \ One 500GB storage plan. Get the first 30 days free just for being a T-Mobile\
+          \ customer. After trial, pay $5/mo. Cancel anytime."
+        isRemovablePhp: true
+        planServiceDetails:
+          features:
+          - feature1
+          - feature 2
+          includedServices:
+          - included service 1
+          - included service 2
+          description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+        subscriptionGroup: Netflix
+        isPendingAddition: true
+        taxTreatment: TI
+        conflictingServiceList:
+        - SOC1
+        - SOC2
+        serviceDisclaimerMessage: serviceDisclaimerMessage
+        name: Google One 500GB
+        serviceSubType: Data Service
+        autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+        effectiveDate: 2023-06-13
+        prerequisiteServiceSocs:
+        - HDPASS
+        freeTrialDescription: freeTrialDescription
+      properties:
+        soc:
+          example: 500GBG1
+          type: string
+        name:
+          example: Google One 500GB
+          type: string
+        price:
+          example: 5.99
+          format: float
+          type: number
+        displayPrice:
+          example: 5.99
+          format: float
+          type: number
+        serviceSubType:
+          example: Data Service
+          type: string
+        subCategories:
+          example:
+          - Data Service
+          items:
+            type: string
+          type: array
+        taxTreatment:
+          enum:
+          - TI
+          - TE
+          type: string
+        isActive:
+          type: boolean
+        shortDescription:
+          example: "Have you backed up your phone lately? Don’t wait till it’s too\
+            \ late. Hold onto each puppy pic and vacation moment with the Google One\
+            \ 500GB storage plan. Get the first 30 days free just for being a T-Mobile\
+            \ customer. After trial, pay $5/mo. Cancel anytime."
+          type: string
+        planServiceDetails:
+          $ref: '#/components/schemas/PlanServiceDetails'
+        isSelected:
+          type: boolean
+        subscriptionGroup:
+          example: Netflix
+          type: string
+        level:
+          enum:
+          - PRODUCT
+          - SUBSCRIBER
+          example: PRODUCT (Plan level - applicable to all subscribers on the same
+            plan)/SUBSCRIBER (Subscriber level)
+          type: string
+        availabilityStatus:
+          example: ForSale
+          type: string
+        effectiveDate:
+          example: 2023-06-13
+          type: string
+        isPendingAddition:
+          type: boolean
+        isPendingRemoval:
+          type: boolean
+        isMandatory:
+          type: boolean
+        conflictingServiceList:
+          example:
+          - SOC1
+          - SOC2
+          items:
+            type: string
+          type: array
+        displayName:
+          type: string
+        prerequisiteServiceSocs:
+          example:
+          - HDPASS
+          items:
+            type: string
+          type: array
+        freeTrialDescription:
+          type: string
+        serviceTrialRemovalMessage:
+          type: string
+        serviceRemovalInfo:
+          type: string
+        partnerTermsAndConditionText:
+          type: string
+        autoRenewalTermsAndConditionText:
+          type: string
+        serviceDisclaimerMessage:
+          type: string
+        isRemovablePhp:
+          type: boolean
+        relatedServices:
+          items:
+            $ref: '#/components/schemas/RelatedService'
+          type: array
+        serviceSequenceNumber:
+          example: "404549861"
+          type: string
+      type: object
+    Subscription:
+      description: subscription
+      example:
+        imageText: Netflix
+        subscriptionGroup: Netflix. This field should not be used for display since
+          it could be not user friendly e.g. AppleTVOnUs.
+        subscriptionPlans:
+        - soc: 500GBG1
+          displayName: displayName
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          isActive: true
+          subCategories:
+          - Data Service
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          serviceSequenceNumber: "404549861"
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: serviceDisclaimerMessage
+          name: Google One 500GB
+          serviceSubType: Data Service
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          effectiveDate: 2023-06-13
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        - soc: 500GBG1
+          displayName: displayName
+          partnerTermsAndConditionText: partnerTermsAndConditionText
+          isActive: true
+          subCategories:
+          - Data Service
+          displayPrice: 5.99
+          price: 5.99
+          serviceTrialRemovalMessage: serviceTrialRemovalMessage
+          isSelected: true
+          relatedServices:
+          - soc: soc
+            socName: socName
+          - soc: soc
+            socName: socName
+          serviceSequenceNumber: "404549861"
+          availabilityStatus: ForSale
+          serviceRemovalInfo: serviceRemovalInfo
+          isMandatory: true
+          isPendingRemoval: true
+          level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+            (Subscriber level)
+          shortDescription: "Have you backed up your phone lately? Don’t wait till\
+            \ it’s too late. Hold onto each puppy pic and vacation moment with the\
+            \ Google One 500GB storage plan. Get the first 30 days free just for being\
+            \ a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+          isRemovablePhp: true
+          planServiceDetails:
+            features:
+            - feature1
+            - feature 2
+            includedServices:
+            - included service 1
+            - included service 2
+            description: "With MAXUp Data you get 40GB total of high-speed mobile\
+              \ hotspot data. After that, you get unlimited mobile hotspot on our\
+              \ network at max 3G speeds. On-device usage is prioritized over tethering\
+              \ usage, which may result in higher speeds for data used on device."
+          subscriptionGroup: Netflix
+          isPendingAddition: true
+          taxTreatment: TI
+          conflictingServiceList:
+          - SOC1
+          - SOC2
+          serviceDisclaimerMessage: serviceDisclaimerMessage
+          name: Google One 500GB
+          serviceSubType: Data Service
+          autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+          effectiveDate: 2023-06-13
+          prerequisiteServiceSocs:
+          - HDPASS
+          freeTrialDescription: freeTrialDescription
+        imageUrl: https://...
+        largeImageUrl: https://...
+        name: Netflix. This field should not be used for display since it could be
+          not user friendly e.g. AppleTVOnUs.
+      properties:
+        name:
+          example: Netflix. This field should not be used for display since it could
+            be not user friendly e.g. AppleTVOnUs.
+          type: string
+        subscriptionGroup:
+          example: Netflix. This field should not be used for display since it could
+            be not user friendly e.g. AppleTVOnUs.
+          type: string
+        imageUrl:
+          example: https://...
+          type: string
+        largeImageUrl:
+          example: https://...
+          type: string
+        imageText:
+          example: Netflix
+          type: string
+        subscriptionPlans:
+          description: list of subscription plans in the group
+          items:
+            $ref: '#/components/schemas/SubscriptionPlan'
+          type: array
+      type: object
+    PlanDataService:
+      description: data services available with a plan
+      example:
+        isPendingRemoval: true
+        socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+          is not removable if it was added previously.
+        level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+          (Subscriber level)
+        soc: MPUDAT40
+        displayName: Unlimited Promo
+        shortDescription: MAXUp Data with 40GB of Hotspot Data
+        subCategories:
+        - Data Service
+        platforms:
+        - iOS
+        - Windows
+        - Android
+        planServiceDetails:
+          features:
+          - feature1
+          - feature 2
+          includedServices:
+          - included service 1
+          - included service 2
+          description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+        isPendingAddition: true
+        taxTreatment: TI
+        displayPrice: 5.99
+        conflictingServiceList:
+        - SOC1
+        - SOC2
+        price: 5.99
+        name: MAXUp Data with 40GB of Hotspot Data
+        isSelected: true
+        pendingChangeEffectiveDate: 2024-09-14
+        serviceSubType: Data Service
+        serviceSequenceNumber: "404549855"
+        isShared: true
+        isMandatory: true
+        effectiveDate: 2024-09-14
+        prerequisiteServiceSocs:
+        - HDPASS
+      properties:
+        soc:
+          example: MPUDAT40
+          type: string
+        name:
+          example: MAXUp Data with 40GB of Hotspot Data
+          type: string
+        price:
+          example: 5.99
+          format: float
+          type: number
+        displayPrice:
+          example: 5.99
+          format: float
+          type: number
+        serviceSubType:
+          example: Data Service
+          type: string
+        subCategories:
+          example:
+          - Data Service
+          items:
+            type: string
+          type: array
+        isShared:
+          type: boolean
+        isSelected:
+          type: boolean
+        level:
+          enum:
+          - PRODUCT
+          - SUBSCRIBER
+          example: PRODUCT (Plan level - applicable to all subscribers on the same
+            plan)/SUBSCRIBER (Subscriber level)
+          type: string
+        isMandatory:
+          type: boolean
+        conflictingServiceList:
+          example:
+          - SOC1
+          - SOC2
+          items:
+            type: string
+          type: array
+        displayName:
+          example: Unlimited Promo
+          type: string
+        planServiceDetails:
+          $ref: '#/components/schemas/PlanServiceDetails'
+        taxTreatment:
+          enum:
+          - TI
+          - TE
+          type: string
+        effectiveDate:
+          example: 2024-09-14
+          type: string
+        isPendingAddition:
+          example: true
+          type: boolean
+        isPendingRemoval:
+          type: boolean
+        pendingChangeEffectiveDate:
+          example: 2024-09-14
+          type: string
+        platforms:
+          example:
+          - iOS
+          - Windows
+          - Android
+          items:
+            type: string
+          type: array
+        prerequisiteServiceSocs:
+          example:
+          - HDPASS
+          items:
+            type: string
+          type: array
+        shortDescription:
+          example: MAXUp Data with 40GB of Hotspot Data
+          type: string
+        socConfig:
+          example: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          type: string
+        serviceSequenceNumber:
+          example: "404549855"
+          type: string
+      type: object
+    Service:
+      description: services a customer has or can buy
+      example:
+        soc: BMMSS
+        displayName: Unlimited Promo
+        partnerTermsAndConditionText: partnerTermsAndConditionText
+        subCategories:
+        - Block Messages
+        platforms:
+        - iOS
+        - Windows
+        - Android
+        displayPrice: 5.99
+        price: 5.99
+        serviceTrialRemovalMessage: serviceTrialRemovalMessage
+        isSelected: true
+        relatedServices:
+        - soc: soc
+          socName: socName
+        - soc: soc
+          socName: socName
+        availabilityStatus: ForSale
+        serviceRemovalInfo: serviceRemovalInfo
+        isMandatory: true
+        isPendingRemoval: true
+        socConfig: For Sale/Non-removable SOC. Non-removable SOC implies this service
+          is not removable if it was added previously.
+        level: PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER
+          (Subscriber level)
+        shortDescription: MAXUp Data with 40GB of Hotspot Data
+        isRemovablePhp: true
+        planServiceDetails:
+          features:
+          - feature1
+          - feature 2
+          includedServices:
+          - included service 1
+          - included service 2
+          description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+        isPendingAddition: true
+        taxTreatment: TI
+        conflictingServiceList:
+        - SOC1
+        - SOC2
+        serviceDisclaimerMessage: "404549855"
+        name: Block Chargeable Text and Picture Messages
+        pendingChangeEffectiveDate: 2024-09-14
+        serviceSubType: BLOCKING
+        autoRenewalTermsAndConditionText: autoRenewalTermsAndConditionText
+        isShared: true
+        effectiveDate: 2024-09-14
+        prerequisiteServiceSocs:
+        - HDPASS
+        freeTrialDescription: freeTrialDescription
+      properties:
+        soc:
+          example: BMMSS
+          type: string
+        name:
+          example: Block Chargeable Text and Picture Messages
+          type: string
+        price:
+          example: 5.99
+          format: float
+          type: number
+        displayPrice:
+          example: 5.99
+          format: float
+          type: number
+        serviceSubType:
+          example: BLOCKING
+          type: string
+        subCategories:
+          example:
+          - Block Messages
+          items:
+            type: string
+          type: array
+        isShared:
+          type: boolean
+        isSelected:
+          type: boolean
+        level:
+          enum:
+          - PRODUCT
+          - SUBSCRIBER
+          example: PRODUCT (Plan level - applicable to all subscribers on the same
+            plan)/SUBSCRIBER (Subscriber level)
+          type: string
+        isMandatory:
+          type: boolean
+        conflictingServiceList:
+          example:
+          - SOC1
+          - SOC2
+          items:
+            type: string
+          type: array
+        displayName:
+          example: Unlimited Promo
+          type: string
+        planServiceDetails:
+          $ref: '#/components/schemas/PlanServiceDetails'
+        taxTreatment:
+          enum:
+          - TI
+          - TE
+          type: string
+        effectiveDate:
+          example: 2024-09-14
+          type: string
+        isPendingAddition:
+          example: true
+          type: boolean
+        isPendingRemoval:
+          type: boolean
+        pendingChangeEffectiveDate:
+          example: 2024-09-14
+          type: string
+        platforms:
+          example:
+          - iOS
+          - Windows
+          - Android
+          items:
+            type: string
+          type: array
+        prerequisiteServiceSocs:
+          example:
+          - HDPASS
+          items:
+            type: string
+          type: array
+        shortDescription:
+          example: MAXUp Data with 40GB of Hotspot Data
+          type: string
+        availabilityStatus:
+          example: ForSale
+          type: string
+        socConfig:
+          example: For Sale/Non-removable SOC. Non-removable SOC implies this service
+            is not removable if it was added previously.
+          type: string
+        freeTrialDescription:
+          type: string
+        serviceTrialRemovalMessage:
+          type: string
+        serviceRemovalInfo:
+          type: string
+        partnerTermsAndConditionText:
+          type: string
+        autoRenewalTermsAndConditionText:
+          type: string
+        serviceDisclaimerMessage:
+          example: "404549855"
+          type: string
+        isRemovablePhp:
+          type: boolean
+        relatedServices:
+          items:
+            $ref: '#/components/schemas/RelatedService'
+          type: array
+      type: object
+    DataPass:
+      description: data pass info
+      example:
+        duration: 24.0
+        unit: GB
+        isImmediateFlag: true
+        conflictingServiceList:
+        - SOC1
+        - SOC2
+        soc: INTL24NA
+        price: 5.99
+        name: 1 Day (512MB) International Data Pass
+        limit: 512.99
+        description: "For up to 24 hours in 215+ destinations, you get: <ul><li>Up\
+          \ to 512MB of high-speed international data, this data can also be used\
+          \ as a Mobile Hotspot.</li><li>Unlimited calling. </li></ul>Note: Once you\
+          \ use all your high-speed data, you will continue to have unlimited calling\
+          \ and data for the full 24 hours but may experience slower data speeds.\
+          \ If you use all your high-speed data and purchase a NEW pass before the\
+          \ expiration of the first one, your second pass will begin immediately.\
+          \ Your original pass and any remaining benefits will expire when you activate\
+          \ the new pass. Speeds & coverage vary based on device and country. Qualifying\
+          \ plan required."
+        dataPassGroup: dataPassGroup
+        durationUnit: HOURS
+        selectedDataPassEffectiveDate: 2024-08-22T15:57:48.000-07:00
+      properties:
+        name:
+          example: 1 Day (512MB) International Data Pass
+          type: string
+        soc:
+          example: INTL24NA
+          type: string
+        dataPassGroup:
+          type: string
+        conflictingServiceList:
+          example:
+          - SOC1
+          - SOC2
+          items:
+            type: string
+          type: array
+        price:
+          example: 5.99
+          format: float
+          type: number
+        limit:
+          example: 512.99
+          format: float
+          type: number
+        unit:
+          enum:
+          - MB
+          - GB
+          - TB
+          example: GB
+          type: string
+        durationUnit:
+          enum:
+          - HOURS
+          - DAYS
+          - MONTHS
+          - YEARS
+          example: HOURS
+          type: string
+        duration:
+          example: 24.0
+          format: float
+          type: number
+        description:
+          example: "For up to 24 hours in 215+ destinations, you get: <ul><li>Up to\
+            \ 512MB of high-speed international data, this data can also be used as\
+            \ a Mobile Hotspot.</li><li>Unlimited calling. </li></ul>Note: Once you\
+            \ use all your high-speed data, you will continue to have unlimited calling\
+            \ and data for the full 24 hours but may experience slower data speeds.\
+            \ If you use all your high-speed data and purchase a NEW pass before the\
+            \ expiration of the first one, your second pass will begin immediately.\
+            \ Your original pass and any remaining benefits will expire when you activate\
+            \ the new pass. Speeds & coverage vary based on device and country. Qualifying\
+            \ plan required."
+          type: string
+        selectedDataPassEffectiveDate:
+          example: 2024-08-22T15:57:48.000-07:00
+          type: string
+        isImmediateFlag:
+          type: boolean
+      type: object
+    BanSuspensionDetails:
+      description: ban suspension details
+      example:
+        isNonPayment: true
+        pastDueAmount: 100.12
+        isOther: true
+      properties:
+        pastDueAmount:
+          example: 100.12
+          format: float
+          type: number
+        isNonPayment:
+          type: boolean
+        isOther:
+          type: boolean
+      type: object
+    PlanServiceDetails:
+      example:
+        features:
+        - feature1
+        - feature 2
+        includedServices:
+        - included service 1
+        - included service 2
+        description: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+          \ data. After that, you get unlimited mobile hotspot on our network at max\
+          \ 3G speeds. On-device usage is prioritized over tethering usage, which\
+          \ may result in higher speeds for data used on device."
+      properties:
+        description:
+          example: "With MAXUp Data you get 40GB total of high-speed mobile hotspot\
+            \ data. After that, you get unlimited mobile hotspot on our network at\
+            \ max 3G speeds. On-device usage is prioritized over tethering usage,\
+            \ which may result in higher speeds for data used on device."
+          type: string
+        features:
+          example:
+          - feature1
+          - feature 2
+          items:
+            type: string
+          type: array
+        includedServices:
+          example:
+          - included service 1
+          - included service 2
+          items:
+            type: string
+          type: array
+      type: object
+    RelatedService:
+      example:
+        soc: soc
+        socName: socName
+      properties:
+        soc:
+          type: string
+        socName:
+          type: string
+      type: object
+    ChangePlanRequest:
+      description: request for change plan/service/datapass
+      example:
+        serviceChanges:
+        - productLevel: true
+          accountLevel: true
+          productType: GSM
+          changeDetails:
+            sequenceNumber: 700064111
+            subCategory: AppleTVplus
+            soc: HDPASS
+            partnerTermsAndConditionText: "By checking the box, you agree to activate\
+              \ Netflix, a third-party service. T-Mobile will handle billing and payments\
+              \ for this service; recurring charges will appear on your T-Mobile bill.\
+              \ T-Mobile’s Terms and Conditions, including arbitration of disputes,\
+              \ apply to this transaction. You will also need to agree to the <strong><a\
+              \ class=\\\"link-secondary\\\" href=\\\"https://help.netflix.com/legal/termsofuse?locale=en-US\\\
+              \" target=\\\"_blank\\\">Netflix Subscription Terms</a></strong> before\
+              \ using Netflix."
+            changeType: changeDataPass
+            action: ADD
+            serviceSubType: Video Streaming
+            autoRenewalTermsAndConditionText: "By checking the box, you agree that\
+              \ after your 4-month promotional trial concludes, you will automatically\
+              \ be charged $9.99 per month on your T-Mobile bill. You may cancel at\
+              \ any time during the trial."
+            socName: Apple TV+ On Us
+            effectiveDate: 2020-03-20T00:00:00.000Z
+            expirationDate: 2020-03-20T00:00:00.000Z
+        - productLevel: true
+          accountLevel: true
+          productType: GSM
+          changeDetails:
+            sequenceNumber: 700064111
+            subCategory: AppleTVplus
+            soc: HDPASS
+            partnerTermsAndConditionText: "By checking the box, you agree to activate\
+              \ Netflix, a third-party service. T-Mobile will handle billing and payments\
+              \ for this service; recurring charges will appear on your T-Mobile bill.\
+              \ T-Mobile’s Terms and Conditions, including arbitration of disputes,\
+              \ apply to this transaction. You will also need to agree to the <strong><a\
+              \ class=\\\"link-secondary\\\" href=\\\"https://help.netflix.com/legal/termsofuse?locale=en-US\\\
+              \" target=\\\"_blank\\\">Netflix Subscription Terms</a></strong> before\
+              \ using Netflix."
+            changeType: changeDataPass
+            action: ADD
+            serviceSubType: Video Streaming
+            autoRenewalTermsAndConditionText: "By checking the box, you agree that\
+              \ after your 4-month promotional trial concludes, you will automatically\
+              \ be charged $9.99 per month on your T-Mobile bill. You may cancel at\
+              \ any time during the trial."
+            socName: Apple TV+ On Us
+            effectiveDate: 2020-03-20T00:00:00.000Z
+            expirationDate: 2020-03-20T00:00:00.000Z
+        msisdn: "1234567890"
+      properties:
+        msisdn:
+          description: MSISDN in action
+          example: "1234567890"
+          nullable: true
+          pattern: "^\\d{10}$"
+          type: string
+        serviceChanges:
+          description: list of services to be changed
+          items:
+            $ref: '#/components/schemas/ServiceChange'
+          type: array
+      required:
+      - msisdn
+      - serviceChanges
+      type: object
+    ServiceChange:
+      example:
+        productLevel: true
+        accountLevel: true
+        productType: GSM
+        changeDetails:
+          sequenceNumber: 700064111
+          subCategory: AppleTVplus
+          soc: HDPASS
+          partnerTermsAndConditionText: "By checking the box, you agree to activate\
+            \ Netflix, a third-party service. T-Mobile will handle billing and payments\
+            \ for this service; recurring charges will appear on your T-Mobile bill.\
+            \ T-Mobile’s Terms and Conditions, including arbitration of disputes,\
+            \ apply to this transaction. You will also need to agree to the <strong><a\
+            \ class=\\\"link-secondary\\\" href=\\\"https://help.netflix.com/legal/termsofuse?locale=en-US\\\
+            \" target=\\\"_blank\\\">Netflix Subscription Terms</a></strong> before\
+            \ using Netflix."
+          changeType: changeDataPass
+          action: ADD
+          serviceSubType: Video Streaming
+          autoRenewalTermsAndConditionText: "By checking the box, you agree that after\
+            \ your 4-month promotional trial concludes, you will automatically be\
+            \ charged $9.99 per month on your T-Mobile bill. You may cancel at any\
+            \ time during the trial."
+          socName: Apple TV+ On Us
+          effectiveDate: 2020-03-20T00:00:00.000Z
+          expirationDate: 2020-03-20T00:00:00.000Z
+      properties:
+        accountLevel:
+          description: Is change an account level or line level
+          example: true
+          type: boolean
+        productLevel:
+          description: Is change an product level or not
+          example: true
+          type: boolean
+        productType:
+          description: type of product
+          example: GSM
+          type: string
+        changeDetails:
+          $ref: '#/components/schemas/ChangeDetails'
+      required:
+      - changeDetails
+      type: object
+    ChangeDetails:
+      description: details of service being changed
+      example:
+        sequenceNumber: 700064111
+        subCategory: AppleTVplus
+        soc: HDPASS
+        partnerTermsAndConditionText: "By checking the box, you agree to activate\
+          \ Netflix, a third-party service. T-Mobile will handle billing and payments\
+          \ for this service; recurring charges will appear on your T-Mobile bill.\
+          \ T-Mobile’s Terms and Conditions, including arbitration of disputes, apply\
+          \ to this transaction. You will also need to agree to the <strong><a class=\\\
+          \"link-secondary\\\" href=\\\"https://help.netflix.com/legal/termsofuse?locale=en-US\\\
+          \" target=\\\"_blank\\\">Netflix Subscription Terms</a></strong> before\
+          \ using Netflix."
+        changeType: changeDataPass
+        action: ADD
+        serviceSubType: Video Streaming
+        autoRenewalTermsAndConditionText: "By checking the box, you agree that after\
+          \ your 4-month promotional trial concludes, you will automatically be charged\
+          \ $9.99 per month on your T-Mobile bill. You may cancel at any time during\
+          \ the trial."
+        socName: Apple TV+ On Us
+        effectiveDate: 2020-03-20T00:00:00.000Z
+        expirationDate: 2020-03-20T00:00:00.000Z
+      properties:
+        changeType:
+          description: "type of soc in action ex service or data pass or data plan,\
+            \ allowed values are changeService/changeDataPass/changePlan for data\
+            \ service, data pass and data plan change respectively"
+          example: changeDataPass
+          type: string
+        soc:
+          description: soc of the item-in-action
+          example: HDPASS
+          pattern: ^.*$
+          type: string
+        socName:
+          example: Apple TV+ On Us
+          type: string
+        serviceSubType:
+          description: "Sub type for the change type, populated for data plan flow"
+          example: Video Streaming
+          pattern: ^.*$
+          type: string
+        subCategory:
+          description: "Sub type for the change type, populated for data plan flow"
+          example: AppleTVplus
+          pattern: ^.*$
+          type: string
+        action:
+          description: "action being taken on this soc ex ADD,REMOVE or MODIFY."
+          example: ADD
+          pattern: ^.*$
+          type: string
+        sequenceNumber:
+          description: "sequenceNumber of the item-in-action,(For action Remove sequence\
+            \ Number is required)"
+          example: 700064111
+          format: int32
+          type: integer
+        effectiveDate:
+          description: Date the given action has to be effective on the SOC
+          example: 2020-03-20T00:00:00.000Z
+          pattern: ^.*$
+          type: string
+        expirationDate:
+          description: Date the given action has to be expired on the SOC
+          example: 2020-03-20T00:00:00.000Z
+          pattern: ^.*$
+          type: string
+        partnerTermsAndConditionText:
+          example: "By checking the box, you agree to activate Netflix, a third-party\
+            \ service. T-Mobile will handle billing and payments for this service;\
+            \ recurring charges will appear on your T-Mobile bill. T-Mobile’s Terms\
+            \ and Conditions, including arbitration of disputes, apply to this transaction.\
+            \ You will also need to agree to the <strong><a class=\\\"link-secondary\\\
+            \" href=\\\"https://help.netflix.com/legal/termsofuse?locale=en-US\\\"\
+            \ target=\\\"_blank\\\">Netflix Subscription Terms</a></strong> before\
+            \ using Netflix."
+          pattern: ^.*$
+          type: string
+        autoRenewalTermsAndConditionText:
+          example: "By checking the box, you agree that after your 4-month promotional\
+            \ trial concludes, you will automatically be charged $9.99 per month on\
+            \ your T-Mobile bill. You may cancel at any time during the trial."
+          pattern: ^.*$
+          type: string
+      required:
+      - action
+      - changeType
+      - effectiveDate
+      - soc
+      type: object
+    ChangePlanResponse:
+      example:
+        statusDetails:
+          status: SUCCESS
+          statusCode: "100"
+      properties:
+        statusDetails:
+          $ref: '#/components/schemas/StatusDetails'
+      type: object
+    StatusDetails:
+      example:
+        status: SUCCESS
+        statusCode: "100"
+      properties:
+        status:
+          description: This field represent status of the service(SUCCESS or ERROR).
+          example: SUCCESS
+          type: string
+        statusCode:
+          description: "This field represent status code(200 , 404 , 500)"
+          example: "100"
+          type: string
+      type: object
+    ReviewServicesRequest:
+      description: request for review plan/service/datapass
+      example:
+        removedSocs:
+        - soc: APPLTVOUS
+        - soc: APPLTVOUS
+        addedSocs:
+        - soc: APPLTVOUS
+        - soc: APPLTVOUS
+        msisdn: "1234567890"
+      properties:
+        msisdn:
+          description: MSISDN in action
+          example: "1234567890"
+          nullable: true
+          pattern: "^\\d{10}$"
+          type: string
+        addedSocs:
+          items:
+            $ref: '#/components/schemas/SocsAddedInfo'
+          type: array
+        removedSocs:
+          items:
+            $ref: '#/components/schemas/SocsRemovedInfo'
+          type: array
+      required:
+      - msisdn
+      type: object
+    ReviewServicesResponse:
+      description: request for review plan/service/datapass
+      example:
+        nextBillingCycle: 2020-03-20
+        removedSocs:
+        - effectiveDateTypes:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          subCategory:
+          - Caller ID & VMTT
+          taxTreatment: TE
+          displayPrice: 4.0
+          soc: CMVTTBV
+          price: 4.0
+          pendingChangeEffectiveDate: 2020-03-20
+          serviceSubType: Value Added Service
+          socName: Scam Shield™ Premium
+          conflictingService:
+          - BTMXP50GB
+        - effectiveDateTypes:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          subCategory:
+          - Caller ID & VMTT
+          taxTreatment: TE
+          displayPrice: 4.0
+          soc: CMVTTBV
+          price: 4.0
+          pendingChangeEffectiveDate: 2020-03-20
+          serviceSubType: Value Added Service
+          socName: Scam Shield™ Premium
+          conflictingService:
+          - BTMXP50GB
+        monthlyIncrease: 22.12
+        addedSocs:
+        - effectiveDateTypes:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          - DATE_PICKER
+          subCategory:
+          - Data Service
+          taxTreatment: TI
+          socChangeLevel: UPGRADE
+          displayPrice: 14.99
+          partnerName: APPLE
+          soc: BTMXP50GB
+          price: 9.99
+          serviceSubType: Data Service
+          dataPassGroup: INTERNATIONAL_ROAMING_DATA
+          socName: Go5G PlusUp w/50GB Hotspot
+          maxDateRangeLimit: 30
+        - effectiveDateTypes:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          - DATE_PICKER
+          subCategory:
+          - Data Service
+          taxTreatment: TI
+          socChangeLevel: UPGRADE
+          displayPrice: 14.99
+          partnerName: APPLE
+          soc: BTMXP50GB
+          price: 9.99
+          serviceSubType: Data Service
+          dataPassGroup: INTERNATIONAL_ROAMING_DATA
+          socName: Go5G PlusUp w/50GB Hotspot
+          maxDateRangeLimit: 30
+        currentBillingCycle: 2020-03-20
+        todayDate: 2020-03-20
+      properties:
+        monthlyIncrease:
+          example: 22.12
+          format: float
+          type: number
+        currentBillingCycle:
+          example: 2020-03-20
+          type: string
+        nextBillingCycle:
+          example: 2020-03-20
+          type: string
+        todayDate:
+          example: 2020-03-20
+          type: string
+        addedSocs:
+          items:
+            $ref: '#/components/schemas/AddedSocsData'
+          type: array
+        removedSocs:
+          items:
+            $ref: '#/components/schemas/RemovedSocsData'
+          type: array
+      type: object
+    SocsAddedInfo:
+      example:
+        soc: APPLTVOUS
+      properties:
+        soc:
+          example: APPLTVOUS
+          type: string
+      required:
+      - soc
+      type: object
+    SocsRemovedInfo:
+      example:
+        soc: APPLTVOUS
+      properties:
+        soc:
+          example: APPLTVOUS
+          type: string
+      required:
+      - soc
+      type: object
+    AddedSocsData:
+      description: Service details
+      example:
+        effectiveDateTypes:
+        - CURRENT_BILLING_CYCLE
+        - NEXT_BILLING_CYCLE
+        - IMMEDIATELY
+        - DATE_PICKER
+        subCategory:
+        - Data Service
+        taxTreatment: TI
+        socChangeLevel: UPGRADE
+        displayPrice: 14.99
+        partnerName: APPLE
+        soc: BTMXP50GB
+        price: 9.99
+        serviceSubType: Data Service
+        dataPassGroup: INTERNATIONAL_ROAMING_DATA
+        socName: Go5G PlusUp w/50GB Hotspot
+        maxDateRangeLimit: 30
+      properties:
+        soc:
+          example: BTMXP50GB
+          type: string
+        socName:
+          example: Go5G PlusUp w/50GB Hotspot
+          type: string
+        serviceSubType:
+          example: Data Service
+          type: string
+        subCategory:
+          example:
+          - Data Service
+          items:
+            type: string
+          type: array
+        dataPassGroup:
+          example: INTERNATIONAL_ROAMING_DATA
+          type: string
+        price:
+          example: 9.99
+          format: float
+          type: number
+        displayPrice:
+          example: 14.99
+          format: float
+          type: number
+        taxTreatment:
+          example: TI
+          type: string
+        socChangeLevel:
+          description: If Monthly data plan changed this feild will determine soc
+            change level
+          example: UPGRADE
+          type: string
+        partnerName:
+          description: "This feild will come when there are partner benefits like\
+            \ netflix, hulu, apple, paramount"
+          example: APPLE
+          type: string
+        maxDateRangeLimit:
+          description: "When this field is present, it applies to one-time data passes,\
+            \ prompting the user to either select immediately or choose a date using\
+            \ the date picker."
+          example: 30
+          type: integer
+        effectiveDateTypes:
+          example:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          - DATE_PICKER
+          items:
+            type: string
+          type: array
+      type: object
+    RemovedSocsData:
+      description: Service details
+      example:
+        effectiveDateTypes:
+        - CURRENT_BILLING_CYCLE
+        - NEXT_BILLING_CYCLE
+        - IMMEDIATELY
+        subCategory:
+        - Caller ID & VMTT
+        taxTreatment: TE
+        displayPrice: 4.0
+        soc: CMVTTBV
+        price: 4.0
+        pendingChangeEffectiveDate: 2020-03-20
+        serviceSubType: Value Added Service
+        socName: Scam Shield™ Premium
+        conflictingService:
+        - BTMXP50GB
+      properties:
+        soc:
+          example: CMVTTBV
+          type: string
+        socName:
+          example: Scam Shield™ Premium
+          type: string
+        serviceSubType:
+          example: Value Added Service
+          type: string
+        subCategory:
+          example:
+          - Caller ID & VMTT
+          items:
+            type: string
+          type: array
+        price:
+          example: 4.0
+          format: float
+          type: number
+        displayPrice:
+          example: 4.0
+          format: float
+          type: number
+        taxTreatment:
+          example: TE
+          type: string
+        conflictingService:
+          description: "If a conflicting SOC is present, the user must select the\
+            \ same date as the one chosen for the added SOC by default."
+          example:
+          - BTMXP50GB
+          items:
+            type: string
+          type: array
+        pendingChangeEffectiveDate:
+          description: "If it is a future Dated soc removal for trail subscriptions,\
+            \ if this feild comes in response than you have to use the date in this\
+            \ feild for effectiveDate removal for that particular soc."
+          example: 2020-03-20
+          type: string
+        effectiveDateTypes:
+          description: "If there are no conflicting soc and not a trail soc, use this\
+            \ feild"
+          example:
+          - CURRENT_BILLING_CYCLE
+          - NEXT_BILLING_CYCLE
+          - IMMEDIATELY
+          items:
+            type: string
+          type: array
+      type: object
+    PartnerSubscriptionRequest:
+      example:
+        partnerSocDetails:
+        - partnerName: NETFLIX
+          soc:
+          - NOADNFLX2
+          - NOADNFLX2
+        - partnerName: NETFLIX
+          soc:
+          - NOADNFLX2
+          - NOADNFLX2
+        msisdn: "1234567890"
+      properties:
+        msisdn:
+          example: "1234567890"
+          type: string
+        partnerSocDetails:
+          items:
+            $ref: '#/components/schemas/PartnerSocData'
+          type: array
+      required:
+      - msisdn
+      - partnerSocDetails
+      type: object
+    PartnerSubscriptionResponse:
+      example:
+        subscriptionDetails:
+        - partnerActivationUrl: https://
+          partnerRecoveryUrl: https://
+          displayPrice: 15.99
+          soc: NOADNFLX2
+          provisioningStatus: ACTIVE
+          price: 11.99
+          socName: Netflix Standard
+        - partnerActivationUrl: https://
+          partnerRecoveryUrl: https://
+          displayPrice: 15.99
+          soc: NOADNFLX2
+          provisioningStatus: ACTIVE
+          price: 11.99
+          socName: Netflix Standard
+        partnerFailures:
+        - userMessage: "Unable to retrieve information from backend System, Please\
+            \ re-try later."
+          code: "003"
+          partnerName: APPLE
+        - userMessage: "Unable to retrieve information from backend System, Please\
+            \ re-try later."
+          code: "003"
+          partnerName: APPLE
+      properties:
+        subscriptionDetails:
+          items:
+            $ref: '#/components/schemas/PartnerSubscriptionDetails'
+          type: array
+        partnerFailures:
+          items:
+            $ref: '#/components/schemas/PartnerFailure'
+          type: array
+      type: object
+    PartnerSocData:
+      example:
+        partnerName: NETFLIX
+        soc:
+        - NOADNFLX2
+        - NOADNFLX2
+      properties:
+        partnerName:
+          example: NETFLIX
+          type: string
+        soc:
+          items:
+            example: NOADNFLX2
+            type: string
+          type: array
+      required:
+      - partnerName
+      - soc
+      type: object
+    PartnerSubscriptionDetails:
+      example:
+        partnerActivationUrl: https://
+        partnerRecoveryUrl: https://
+        displayPrice: 15.99
+        soc: NOADNFLX2
+        provisioningStatus: ACTIVE
+        price: 11.99
+        socName: Netflix Standard
+      properties:
+        soc:
+          example: NOADNFLX2
+          type: string
+        socName:
+          example: Netflix Standard
+          type: string
+        partnerActivationUrl:
+          example: https://
+          type: string
+        provisioningStatus:
+          example: ACTIVE
+          type: string
+        partnerRecoveryUrl:
+          example: https://
+          type: string
+        price:
+          example: 11.99
+          format: float
+          type: number
+        displayPrice:
+          example: 15.99
+          format: float
+          type: number
+      type: object
+    PartnerFailure:
+      example:
+        userMessage: "Unable to retrieve information from backend System, Please re-try\
+          \ later."
+        code: "003"
+        partnerName: APPLE
+      properties:
+        partnerName:
+          example: APPLE
+          type: string
+        code:
+          example: "003"
+          type: string
+        userMessage:
+          example: "Unable to retrieve information from backend System, Please re-try\
+            \ later."
+          type: string
+      type: object
+  securitySchemes:
+    OAuth2:
+      description: Access via JWT
+      in: header
+      name: Authorization
+      type: apiKey
+x-original-swagger-version: "2.0"

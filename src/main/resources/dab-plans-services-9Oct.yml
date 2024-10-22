@@ -1,0 +1,1866 @@
+swagger: '2.0'
+info:
+  title: Services
+  description: Services related APIs
+  version: 1.0.0
+  contact:
+    name: DAB Team
+    email: dab_team@T-Mobile.com
+  x-type-of-consumer: EU
+  x-breadth-of-consumption: ANY
+  x-data-sensitivity: Restricted
+host: dab-plans-services:9000
+produces:
+  - application/json
+consumes:
+  - application/json
+basePath: /v1
+schemes:
+  - https
+securityDefinitions:
+  OAuth2:
+    type: apiKey
+    description: Access via JWT
+    name: Authorization
+    in: header
+parameters:
+  AcceptLanguageParam:
+    name: Accept-Language
+    in: header
+    required: false
+    type: string
+  AuthorizationParam:
+    name: Authorization
+    in: header
+    required: true
+    type: string
+    description: Bearer prefix JWT Token
+    x-example: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+    pattern: .*$
+  X_AuthorizationParam:
+    name: X-Authorization
+    in: header
+    required: true
+    type: string
+    description: Taap compliant POPT Token.
+    x-example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+    pattern: .*$
+  X_AuthOriginatorParam:
+    name: X-Auth-Originator
+    in: header
+    required: true
+    type: string
+    description: Id token.
+    x-example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpY
+    pattern: .*$
+  AppVersionParam:
+    name: app-version
+    in: header
+    required: false
+    type: string
+  DeviceOemParam:
+    name: device-oem
+    in: header
+    required: false
+    type: string
+  DeviceModelParam:
+    name: device-model
+    in: header
+    required: false
+    type: string
+  DeviceOsParam:
+    name: device-os
+    in: header
+    required: false
+    type: string
+  DeviceOsVersionParam:
+    name: device-os-version
+    in: header
+    required: false
+    type: string
+  OsLanguageParam:
+    name: os-language
+    in: header
+    required: false
+    type: string
+  SessionIdParam:
+    name: session-id
+    in: header
+    required: false
+    type: string
+  InteractionIdParam:
+    name: interaction-id
+    in: header
+    required: false
+    type: string
+  ActivityIdParam:
+    name: activity-id
+    in: header
+    required: false
+    type: string
+  TimestampParam:
+    name: timestamp
+    in: header
+    required: false
+    type: string
+  ChannelIdParam:
+    name: channel-id
+    in: header
+    required: false
+    type: string
+  OriginApplicationIdParam:
+    name: origin-application-id
+    in: header
+    required: false
+    type: string
+  ApplicationIdParam:
+    name: application-id
+    in: header
+    required: false
+    type: string
+paths:
+  /services:
+    post:
+      tags:
+        - services
+      summary: Get services
+      description: Get current and eligible services including data passes
+      operationId: services
+      x-data-sensitivity: Restricted
+      x-api-pattern: ExecuteFunction
+      security:
+        - OAuth2: [ ]
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AcceptLanguageParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/X_AuthorizationParam'
+        - $ref: '#/parameters/X_AuthOriginatorParam'
+        - $ref: '#/parameters/AppVersionParam'
+        - $ref: '#/parameters/DeviceOemParam'
+        - $ref: '#/parameters/DeviceModelParam'
+        - $ref: '#/parameters/DeviceOsParam'
+        - $ref: '#/parameters/DeviceOsVersionParam'
+        - $ref: '#/parameters/OsLanguageParam'
+        - $ref: '#/parameters/TimestampParam'
+        - $ref: '#/parameters/ChannelIdParam'
+        - $ref: '#/parameters/OriginApplicationIdParam'
+        - $ref: '#/parameters/ApplicationIdParam'
+        - $ref: '#/parameters/SessionIdParam'
+        - $ref: '#/parameters/InteractionIdParam'
+        - $ref: '#/parameters/ActivityIdParam'
+        - in: header
+          name: Content-Type
+          type: string
+          required: true
+          pattern: .*$
+        - in: body
+          name: services
+          description: services
+          required: true
+          schema:
+            $ref: '#/definitions/ServicesRequest'
+      responses:
+        '200':
+          description: services
+          schema:
+            $ref: '#/definitions/ServicesResponse'
+          headers:
+            Date:
+              description: time stamp of response generation
+              x-example: Thu, 29 Aug 2019 17:53:11 GMT
+              pattern: .*$
+              type: string
+            Cache-Control:
+              description: Cache-control
+              x-example: no-cache
+              type: string
+              pattern: .*$
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Client access denied
+        '500':
+          description: Internal server error
+  /review-services:
+    post:
+      tags:
+        - services
+      operationId: api to review plan/services/datapass
+      summary: Review Added/Removed plan, data and services
+      x-api-pattern: queryResource
+      security:
+        - OAuth2: [ ]
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AcceptLanguageParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/X_AuthorizationParam'
+        - $ref: '#/parameters/X_AuthOriginatorParam'
+        - $ref: '#/parameters/AppVersionParam'
+        - $ref: '#/parameters/DeviceOemParam'
+        - $ref: '#/parameters/DeviceModelParam'
+        - $ref: '#/parameters/DeviceOsParam'
+        - $ref: '#/parameters/DeviceOsVersionParam'
+        - $ref: '#/parameters/OsLanguageParam'
+        - $ref: '#/parameters/TimestampParam'
+        - $ref: '#/parameters/ChannelIdParam'
+        - $ref: '#/parameters/OriginApplicationIdParam'
+        - $ref: '#/parameters/ApplicationIdParam'
+        - $ref: '#/parameters/SessionIdParam'
+        - $ref: '#/parameters/InteractionIdParam'
+        - $ref: '#/parameters/ActivityIdParam'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ReviewServicesRequest'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/ReviewServicesResponse'
+          headers:
+            Cache-Control:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '403':
+          description: ProducerId is not authorized to publish event in env or Event not associated with any Team name in DEEP.io Registry
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              exception: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              path: 'ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102'
+              message: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              error: FORBIDDEN
+              timestamp: 'Thu Jun 27 22:35:14 UTC 2019'
+              status: '403'
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: list of supported methods for URI
+              x-example: GET
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '406':
+          description: Mismatching data format
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '406'
+              userMessage: Mismatching data format
+              systemMessage: Mismatching data format
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+  /update-services:
+    post:
+      tags:
+        - services
+      operationId: api to update plan/services/datapass
+      summary: Change plan and services
+      x-api-pattern: queryResource
+      security:
+        - OAuth2: [ ]
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AcceptLanguageParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/X_AuthorizationParam'
+        - $ref: '#/parameters/X_AuthOriginatorParam'
+        - $ref: '#/parameters/AppVersionParam'
+        - $ref: '#/parameters/DeviceOemParam'
+        - $ref: '#/parameters/DeviceModelParam'
+        - $ref: '#/parameters/DeviceOsParam'
+        - $ref: '#/parameters/DeviceOsVersionParam'
+        - $ref: '#/parameters/OsLanguageParam'
+        - $ref: '#/parameters/TimestampParam'
+        - $ref: '#/parameters/ChannelIdParam'
+        - $ref: '#/parameters/OriginApplicationIdParam'
+        - $ref: '#/parameters/ApplicationIdParam'
+        - $ref: '#/parameters/SessionIdParam'
+        - $ref: '#/parameters/InteractionIdParam'
+        - $ref: '#/parameters/ActivityIdParam'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ChangePlanRequest'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/ChangePlanResponse'
+          headers:
+            Cache-Control:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '403':
+          description: ProducerId is not authorized to publish event in env or Event not associated with any Team name in DEEP.io Registry
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              exception: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              path: 'ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102'
+              message: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              error: FORBIDDEN
+              timestamp: 'Thu Jun 27 22:35:14 UTC 2019'
+              status: '403'
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: list of supported methods for URI
+              x-example: GET
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '406':
+          description: Mismatching data format
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '406'
+              userMessage: Mismatching data format
+              systemMessage: Mismatching data format
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+  /partner-subscriptions:
+    post:
+      tags:
+        - services
+      operationId: api to get partner subscriptions details
+      summary: Get details for partner subscriptions
+      x-api-pattern: queryResource
+      security:
+        - OAuth2: [ ]
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AcceptLanguageParam'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/X_AuthorizationParam'
+        - $ref: '#/parameters/X_AuthOriginatorParam'
+        - $ref: '#/parameters/AppVersionParam'
+        - $ref: '#/parameters/DeviceOemParam'
+        - $ref: '#/parameters/DeviceModelParam'
+        - $ref: '#/parameters/DeviceOsParam'
+        - $ref: '#/parameters/DeviceOsVersionParam'
+        - $ref: '#/parameters/OsLanguageParam'
+        - $ref: '#/parameters/TimestampParam'
+        - $ref: '#/parameters/ChannelIdParam'
+        - $ref: '#/parameters/OriginApplicationIdParam'
+        - $ref: '#/parameters/ApplicationIdParam'
+        - $ref: '#/parameters/SessionIdParam'
+        - $ref: '#/parameters/InteractionIdParam'
+        - $ref: '#/parameters/ActivityIdParam'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PartnerSubscriptionRequest'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/PartnerSubscriptionResponse'
+          examples:
+            application/json:
+              subscriptionDetails:
+                - soc: 'NOADNFLX2'
+                  socName: 'Netflix Standard'
+                  partnerActivationUrl: 'https://'
+                  provisioningStatus: 'ACTIVE'
+                  price: '15.99'
+                  displayPrice: '15.99'
+          headers:
+            Cache-Control:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '206':
+          description: 'Partial Content, returned when unable to retrieve information from one of the backend.'
+          schema:
+            $ref: '#/definitions/PartnerSubscriptionResponse'
+          examples:
+            application/json:
+              subscriptionDetails:
+                - soc: 'NOADNFLX2'
+                  socName: 'Netflix Standard'
+                  partnerActivationUrl: 'https://'
+                  provisioningStatus: 'ACTIVE'
+                  price: '15.99'
+                  displayPrice: '15.99'
+              partnerFailures:
+                - partnerName: 'APPLE'
+                  code: '0003'
+                  userMessage: 'Unable to retrieve information from backend System, Please re-try later.'
+          headers:
+            Cache-Control:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Cache policy supported for the resource by the server
+              x-example: no-cache
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '400'
+              userMessage: Bad Request
+              systemMessage: Bad Request
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '401'
+              userMessage: Unauthorized
+              systemMessage: Unauthorized
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '403':
+          description: ProducerId is not authorized to publish event in env or Event not associated with any Team name in DEEP.io Registry
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              exception: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              path: 'ServletWebRequest: uri=/development/v1/events/DemoEvent;client=198.18.53.102'
+              message: 'To read more details about this error, visit https://qwiki.internal.t-mobile.com/display/DIGEE/Publisher+-+Error+codes and look for error the specific error code.'
+              error: FORBIDDEN
+              timestamp: 'Thu Jun 27 22:35:14 UTC 2019'
+              status: '403'
+        '404':
+          description: Resource not found
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '404'
+              userMessage: Resource not found
+              systemMessage: Resource not found
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '405':
+          description: Method Not Allowed
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '405'
+              userMessage: Method Not Allowed
+              systemMessage: Method Not Allowed
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Allow:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: list of supported methods for URI
+              x-example: GET
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+            service-transaction-id:
+              type: string
+              minLength: 1
+              maxLength: 256
+              pattern: '^[\S]*$'
+              description: Request ID echoed back by server
+              x-example: '23409209723'
+        '406':
+          description: Mismatching data format
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '406'
+              userMessage: Mismatching data format
+              systemMessage: Mismatching data format
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '500':
+          description: System Error
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '500'
+              userMessage: System Error
+              systemMessage: System Error
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+          examples:
+            application/json:
+              code: '503'
+              userMessage: Service unavailable
+              systemMessage: Service unavailable
+              detailLink: 'http://www.tmus.com'
+          headers:
+            Date:
+              type: string
+              format: date-time
+              pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$'
+              description: The Date general HTTP header contains the date and time at which the message was originated.
+              x-example: 'Mon, 05 Mar 2018 16:38:08 GMT'
+definitions:
+  Error:
+    type: object
+    description: Error object
+    properties:
+      code:
+        type: string
+        description: code for error
+      systemMessage:
+        type: string
+        description: system message for error
+      userMessage:
+        type: string
+        description: user message
+  ServicesRequest:
+    type: object
+    description: Request to get services
+    properties:
+      msisdn:
+        type: string
+        example: "1234567890"
+      fetchSubscriptions:
+        type: boolean
+        example: true
+      fetchDataPasses:
+        type: boolean
+        example: true
+      fetchPlanDataServices:
+        type: boolean
+        example: true
+      serviceSubTypeFilter:
+        type: string
+        example: Handset Protection and Upgrade/Video Streaming - only for services and not subscriptions
+      subCategoriesFilter:
+        type: array
+        items:
+          type: string
+        example: [ "Insurance", "Extended Warranty","Mobile Security","Upgrade Program" ]
+  ServicesResponse:
+    type: object
+    description: Services response
+    properties:
+      isLineLevelSuspended:
+        type: boolean
+      isLineInvoluntarySuspended:
+        type: boolean
+      isAccountLevelSuspended:
+        type: boolean
+      isBanInvoluntarySuspended:
+        type: boolean
+      banSuspensionDetails:
+        $ref: '#/definitions/BanSuspensionDetails'
+      isBanVoluntarySuspended:
+        type: boolean
+      hasPendingPlansServices:
+        type: boolean
+      hasPendingDatasService:
+        type: boolean
+      currentMonthlyTotal:
+        type: number
+        format: float
+        example: 22.12
+        pattern: .*$
+      isTaxInclusive:
+        type: boolean
+      maxFuturePurchaseDays:
+        type: number
+        format: int
+        example: 30
+        description: max future purchase days for data passes
+      passLimitExceededCatList:
+        type: array
+        items:
+          type: string
+        example: [ "ON_NETWORK_TETHERING_ONLY" ]
+      internationalDataPassLimit:
+        type: number
+        format: int
+        example: 10
+        description: max active international data passes allowed for a PAH at a time
+      currentDate:
+        type: string
+        example: "2024-08-22"
+      productType:
+        type: string
+        example: "GSM/MBB"
+      currentServices:
+        type: array
+        description: list of services on the account/subscriber
+        items:
+          $ref: '#/definitions/CurrentService'
+      currentDataPasses:
+        type: array
+        description: list of data passes on the subscriber
+        items:
+          $ref: '#/definitions/CurrentDataPass'
+      activeSubscriptions:
+        type: array
+        description: list of active subscriptions on the account/subscriber
+        items:
+          $ref: '#/definitions/ActiveSubscription'
+      eligibleSubscriptions:
+        type: array
+        description: list of eligible subscriptions for the account/subscriber including currently active subscriptions
+        items:
+          $ref: '#/definitions/Subscription'
+      planDataServices:
+        type: array
+        description: list of eligible plan data services
+        items:
+          $ref: '#/definitions/PlanDataService'
+      eligibleServices:
+        type: array
+        description: list of eligible services for the account/subscriber including currently active subscriptions
+        items:
+          $ref: '#/definitions/Service'
+      eligibleDataPasses:
+        type: array
+        description: list of eligible data passes for the subscriber
+        items:
+          $ref: '#/definitions/DataPass'
+  CurrentService:
+    type: object
+    description: Service details
+    properties:
+      name:
+        type: string
+        example: "MAXUp Data with 40GB of Hotspot Data"
+      soc:
+        type: string
+        example: "MGDATA"
+      shortDescription:
+        type: string
+        example: "MAXUp Data with 40GB of Hotspot Data"
+      planServiceDetails:
+        $ref: '#/definitions/PlanServiceDetails'
+      price:
+        type: number
+        format: float
+        example: 10.15
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 10.15
+        pattern: .*$
+      planServiceStatus:
+        type: string
+        enum:
+          - REMOVED
+          - CURRENT
+          - FUTURE_DATED
+        example: "REMOVED/CURRENT/FUTURE_DATED"
+      productType:
+        type: string
+        example: "GSM/MBB"
+      level:
+        type: string
+        enum:
+          - PRODUCT
+          - SUBSCRIBER
+        example: "PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER (Subscriber level)"
+      effectiveDate:
+        type: string
+        example: "2021-07-30"
+      expirationDate:
+        type: string
+        example: "2024-09-14"
+      serviceSequenceNumber:
+        type: string
+        example: "404549875"
+  CurrentDataPass:
+    type: object
+    description: Details for a data pass currently on the subscription
+    properties:
+      name:
+        type: string
+        example: "1 Day (512MB) International Data Pass"
+      soc:
+        type: string
+        example: "INTL24NA"
+      dataPassGroup:
+        type: string
+      price:
+        type: number
+        format: float
+        example: 5.15
+        pattern: .*$
+      limit:
+        type: number
+        format: float
+        example: 15360
+        pattern: .*$
+      unit:
+        type: string
+        example: "MB/GB"
+      usage:
+        type: number
+        format: float
+        example: 15.30
+        pattern: .*$
+      beginDate:
+        type: string
+        example: "2024-08-30"
+      beginTime:
+        type: string
+        example: "10:08 AM PT"
+      expirationStatus:
+        type: string
+        enum:
+          - UPCOMING
+          - ACTIVE
+          - EXPIRES_SOON
+        example: "UPCOMING"
+      expiryDate:
+        type: string
+        example: "2024-08-31"
+      expiryTime:
+        type: string
+        example: "10:08 AM PT"
+      serviceSequenceNumber:
+        type: string
+        example: "404549875"
+  ActiveSubscription:
+    type: object
+    description: active subscription (selected by the user)
+    properties:
+      name:
+        type: string
+        example: "Google One 500GB"
+      soc:
+        type: string
+        example: "500GBG1"
+      price:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      effectiveDate:
+        type: string
+        example: "2023-06-13"
+      isPendingAddition:
+        type: boolean
+      taxTreatment:
+        type: string
+        enum:
+          - TI
+          - TE
+      shortDescription:
+        type: string
+        example: "Have you backed up your phone lately? Don’t wait till it’s too late. Hold onto each puppy pic and vacation moment with the Google One 500GB storage plan. Get the first 30 days free just for being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+      planServiceDetails:
+        $ref: '#/definitions/PlanServiceDetails'
+      isActive:
+        type: boolean
+      isPartnerStatusApiFailure:
+        type: boolean
+      partnerActivationUrl:
+        type: string
+        example: "https://www.netflix.com/partner/home?ptoken=abc"
+      subscriptionGroup:
+        type: string
+        example: "Netflix"
+      imageUrl:
+        type: string
+        example: "https://..."
+      largeImageUrl:
+        type: string
+        example: "https://..."
+      imageText:
+        type: string
+        example: "Netflix"
+      serviceSequenceNumber:
+        type: string
+        example: "404549875"
+      subscriptionPlans:
+        type: array
+        description: list of subscription plans in the group
+        items:
+          $ref: '#/definitions/SubscriptionPlan'
+  SubscriptionPlan:
+    type: object
+    description: subscription plan - selected by the user or available for selection
+    properties:
+      soc:
+        type: string
+        example: "500GBG1"
+      name:
+        type: string
+        example: "Google One 500GB"
+      price:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      serviceSubType:
+        type: string
+        example: "Data Service"
+      subCategories:
+        type: array
+        items:
+          type: string
+        example: [ "Data Service" ]
+      taxTreatment:
+        type: string
+        enum:
+          - TI
+          - TE
+      isActive:
+        type: boolean
+      shortDescription:
+        type: string
+        example: "Have you backed up your phone lately? Don’t wait till it’s too late. Hold onto each puppy pic and vacation moment with the Google One 500GB storage plan. Get the first 30 days free just for being a T-Mobile customer. After trial, pay $5/mo. Cancel anytime."
+      planServiceDetails:
+        $ref: '#/definitions/PlanServiceDetails'
+      isSelected:
+        type: boolean
+      subscriptionGroup:
+        type: string
+        example: "Netflix"
+      level:
+        type: string
+        enum:
+          - PRODUCT
+          - SUBSCRIBER
+        example: "PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER (Subscriber level)"
+      availabilityStatus:
+        type: string
+        example: "ForSale"
+      effectiveDate:
+        type: string
+        example: "2023-06-13"
+      isPendingAddition:
+        type: boolean
+      isPendingRemoval:
+        type: boolean
+      isMandatory:
+        type: boolean
+      conflictingServiceList:
+        type: array
+        items:
+          type: string
+        example: [ "SOC1", "SOC2" ]
+      displayName:
+        type: string
+      prerequisiteServiceSocs:
+        type: array
+        items:
+          type: string
+        example: [ "HDPASS" ]
+      freeTrialDescription:
+        type: string
+      serviceTrialRemovalMessage:
+        type: string
+      serviceRemovalInfo:
+        type: string
+      partnerTermsAndConditionText:
+        type: string
+      autoRenewalTermsAndConditionText:
+        type: string
+      serviceDisclaimerMessage:
+        type: string
+      isRemovablePhp:
+        type: boolean
+      relatedServices:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedService'
+      serviceSequenceNumber:
+        type: string
+        example: "404549861"
+  Subscription:
+    type: object
+    description: subscription
+    properties:
+      name:
+        type: string
+        example: "Netflix. This field should not be used for display since it could be not user friendly e.g. AppleTVOnUs."
+      subscriptionGroup:
+        type: string
+        example: "Netflix. This field should not be used for display since it could be not user friendly e.g. AppleTVOnUs."
+      imageUrl:
+        type: string
+        example: "https://..."
+      largeImageUrl:
+        type: string
+        example: "https://..."
+      imageText:
+        type: string
+        example: "Netflix"
+      subscriptionPlans:
+        type: array
+        description: list of subscription plans in the group
+        items:
+          $ref: '#/definitions/SubscriptionPlan'
+  PlanDataService:
+    type: object
+    description: data services available with a plan
+    properties:
+      soc:
+        type: string
+        example: "MPUDAT40"
+      name:
+        type: string
+        example: "MAXUp Data with 40GB of Hotspot Data"
+      price:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      serviceSubType:
+        type: string
+        example: "Data Service"
+      subCategories:
+        type: array
+        items:
+          type: string
+        example: [ "Data Service" ]
+      isShared:
+        type: boolean
+      isSelected:
+        type: boolean
+      level:
+        type: string
+        enum:
+          - PRODUCT
+          - SUBSCRIBER
+        example: "PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER (Subscriber level)"
+      isMandatory:
+        type: boolean
+      conflictingServiceList:
+        type: array
+        items:
+          type: string
+        example: [ "SOC1", "SOC2" ]
+      displayName:
+        type: string
+        example: "Unlimited Promo"
+      planServiceDetails:
+        $ref: '#/definitions/PlanServiceDetails'
+      taxTreatment:
+        type: string
+        enum:
+          - TI
+          - TE
+      effectiveDate:
+        type: string
+        example: "2024-09-14"
+      isPendingAddition:
+        type: boolean
+        example: true
+      isPendingRemoval:
+        type: boolean
+      pendingChangeEffectiveDate:
+        type: string
+        example: "2024-09-14"
+      platforms:
+        type: array
+        items:
+          type: string
+        example: [ "iOS", "Windows", "Android" ]
+      prerequisiteServiceSocs:
+        type: array
+        items:
+          type: string
+        example: [ "HDPASS" ]
+      shortDescription:
+        type: string
+        example: "MAXUp Data with 40GB of Hotspot Data"
+      socConfig:
+        type: string
+        example: "For Sale/Non-removable SOC. Non-removable SOC implies this service is not removable if it was added previously."
+      serviceSequenceNumber:
+        type: string
+        example: "404549855"
+  Service:
+    type: object
+    description: services a customer has or can buy
+    properties:
+      soc:
+        type: string
+        example: "BMMSS"
+      name:
+        type: string
+        example: "Block Chargeable Text and Picture Messages"
+      price:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      serviceSubType:
+        type: string
+        example: "BLOCKING"
+      subCategories:
+        type: array
+        items:
+          type: string
+        example: [ "Block Messages" ]
+      isShared:
+        type: boolean
+      isSelected:
+        type: boolean
+      level:
+        type: string
+        enum:
+          - PRODUCT
+          - SUBSCRIBER
+        example: "PRODUCT (Plan level - applicable to all subscribers on the same plan)/SUBSCRIBER (Subscriber level)"
+      isMandatory:
+        type: boolean
+      conflictingServiceList:
+        type: array
+        items:
+          type: string
+        example: [ "SOC1", "SOC2" ]
+      displayName:
+        type: string
+        example: "Unlimited Promo"
+      planServiceDetails:
+        $ref: '#/definitions/PlanServiceDetails'
+      taxTreatment:
+        type: string
+        enum:
+          - TI
+          - TE
+      effectiveDate:
+        type: string
+        example: "2024-09-14"
+      isPendingAddition:
+        type: boolean
+        example: true
+      isPendingRemoval:
+        type: boolean
+      pendingChangeEffectiveDate:
+        type: string
+        example: "2024-09-14"
+      platforms:
+        type: array
+        items:
+          type: string
+        example: [ "iOS", "Windows", "Android" ]
+      prerequisiteServiceSocs:
+        type: array
+        items:
+          type: string
+        example: [ "HDPASS" ]
+      shortDescription:
+        type: string
+        example: "MAXUp Data with 40GB of Hotspot Data"
+      availabilityStatus:
+        type: string
+        example: "ForSale"
+      socConfig:
+        type: string
+        example: "For Sale/Non-removable SOC. Non-removable SOC implies this service is not removable if it was added previously."
+      freeTrialDescription:
+        type: string
+      serviceTrialRemovalMessage:
+        type: string
+      serviceRemovalInfo:
+        type: string
+      partnerTermsAndConditionText:
+        type: string
+      autoRenewalTermsAndConditionText:
+        type: string
+      serviceDisclaimerMessage:
+        type: string
+        example: "404549855"
+      isRemovablePhp:
+        type: boolean
+      relatedServices:
+        type: array
+        items:
+          $ref: '#/definitions/RelatedService'
+  DataPass:
+    type: object
+    description: data pass info
+    properties:
+      name:
+        type: string
+        example: "1 Day (512MB) International Data Pass"
+      soc:
+        type: string
+        example: "INTL24NA"
+      dataPassGroup:
+        type: string
+      conflictingServiceList:
+        type: array
+        items:
+          type: string
+        example: [ "SOC1", "SOC2" ]
+      price:
+        type: number
+        format: float
+        example: 5.99
+        pattern: .*$
+      limit:
+        type: number
+        format: float
+        example: 512.99
+        pattern: .*$
+      unit:
+        type: string
+        enum:
+          - MB
+          - GB
+          - TB
+        example: "GB"
+      durationUnit:
+        type: string
+        enum:
+          - HOURS
+          - DAYS
+          - MONTHS
+          - YEARS
+        example: "HOURS"
+      duration:
+        type: number
+        format: float
+        example: 24
+      description:
+        type: string
+        example: "For up to 24 hours in 215+ destinations, you get: <ul><li>Up to 512MB of high-speed international data, this data can also be used as a Mobile Hotspot.</li><li>Unlimited calling. </li></ul>Note: Once you use all your high-speed data, you will continue to have unlimited calling and data for the full 24 hours but may experience slower data speeds. If you use all your high-speed data and purchase a NEW pass before the expiration of the first one, your second pass will begin immediately. Your original pass and any remaining benefits will expire when you activate the new pass. Speeds & coverage vary based on device and country. Qualifying plan required."
+      selectedDataPassEffectiveDate:
+        type: string
+        example: "2024-08-22T15:57:48.000-07:00"
+      isImmediateFlag:
+        type: boolean
+  BanSuspensionDetails:
+    type: object
+    description: ban suspension details
+    properties:
+      pastDueAmount:
+        type: number
+        format: float
+        example: 100.12
+      isNonPayment:
+        type: boolean
+      isOther:
+        type: boolean
+  PlanServiceDetails:
+    type: object
+    properties:
+      description:
+        type: string
+        example: With MAXUp Data you get 40GB total of high-speed mobile hotspot data. After that, you get unlimited mobile hotspot on our network at max 3G speeds. On-device usage is prioritized over tethering usage, which may result in higher speeds for data used on device.
+      features:
+        type: array
+        items:
+          type: string
+        example: [ "feature1","feature 2" ]
+      includedServices:
+        type: array
+        items:
+          type: string
+        example: [ "included service 1","included service 2" ]
+  RelatedService:
+    type: object
+    properties:
+      soc:
+        type: string
+      socName:
+        type: string
+  ChangePlanRequest:
+    type: object
+    description: request for change plan/service/datapass
+    properties:
+      msisdn:
+        type: string
+        x-nullable: true
+        description: MSISDN in action
+        pattern: '^\d{10}$'
+        example: 1234567890
+      serviceChanges:
+        type: array
+        description: list of services to be changed
+        items:
+          $ref: '#/definitions/ServiceChange'
+    required:
+      - msisdn
+      - serviceChanges
+  ServiceChange:
+    type: object
+    properties:
+      accountLevel:
+        type: boolean
+        description: Is change an account level or line level
+        example: true
+      productLevel:
+        type: boolean
+        description: Is change an product level or not
+        example: true
+      productType:
+        type: string
+        description: type of product
+        example: GSM
+      changeDetails:
+        $ref: '#/definitions/ChangeDetails'
+    required:
+      - changeDetails
+  ChangeDetails:
+    type: object
+    description: details of service being changed
+    properties:
+      changeType:
+        type: string
+        description: type of soc in action ex service or data pass or data plan, allowed values are changeService/changeDataPass/changePlan for data service, data pass and data plan change respectively
+        example: changeDataPass
+      soc:
+        type: string
+        description: soc of the item-in-action
+        pattern: ^.*$
+        example: HDPASS
+      socName:
+        type: string
+        example: Apple TV+ On Us
+      serviceSubType:
+        type: string
+        description: Sub type for the change type, populated for data plan flow
+        pattern: ^.*$
+        example: Video Streaming
+      subCategory:
+        type: string
+        description: Sub type for the change type, populated for data plan flow
+        pattern: ^.*$
+        example: AppleTVplus
+      action:
+        type: string
+        description: action being taken on this soc ex ADD,REMOVE or MODIFY.
+        pattern: ^.*$
+        example: ADD
+      sequenceNumber:
+        type: integer
+        format: int32
+        description: sequenceNumber of the item-in-action,(For action Remove sequence Number is required)
+        example: 700064111
+      effectiveDate:
+        type: string
+        description: Date the given action has to be effective on the SOC
+        pattern: ^.*$
+        example: 2020-03-20T00:00:00.000Z
+      expirationDate:
+        type: string
+        description: Date the given action has to be expired on the SOC
+        pattern: ^.*$
+        example: 2020-03-20T00:00:00.000Z
+      partnerTermsAndConditionText:
+        type: string
+        pattern: ^.*$
+        example: By checking the box, you agree to activate Netflix, a third-party service. T-Mobile will handle billing and payments for this service; recurring charges will appear on your T-Mobile bill. T-Mobile’s Terms and Conditions, including arbitration of disputes, apply to this transaction. You will also need to agree to the <strong><a class=\"link-secondary\" href=\"https://help.netflix.com/legal/termsofuse?locale=en-US\" target=\"_blank\">Netflix Subscription Terms</a></strong> before using Netflix.
+      autoRenewalTermsAndConditionText:
+        type: string
+        pattern: ^.*$
+        example: By checking the box, you agree that after your 4-month promotional trial concludes, you will automatically be charged $9.99 per month on your T-Mobile bill. You may cancel at any time during the trial.
+    required:
+      - changeType
+      - action
+      - soc
+      - effectiveDate
+  ChangePlanResponse:
+    type: object
+    properties:
+      statusDetails:
+        $ref: '#/definitions/StatusDetails'
+  StatusDetails:
+    type: object
+    properties:
+      status:
+        type: string
+        description: This field represent status of the service(SUCCESS or ERROR).
+        example: SUCCESS
+      statusCode:
+        type: string
+        description: This field represent status code(200 , 404 , 500)
+        example: 100
+  ReviewServicesRequest:
+    type: object
+    description: request for review plan/service/datapass
+    properties:
+      msisdn:
+        type: string
+        x-nullable: true
+        description: MSISDN in action
+        pattern: '^\d{10}$'
+        example: 1234567890
+      addedSocs:
+        type: array
+        items:
+          $ref: '#/definitions/SocsAddedInfo'
+      removedSocs:
+        type: array
+        items:
+          $ref: '#/definitions/SocsRemovedInfo'
+    required:
+      - msisdn
+  ReviewServicesResponse:
+    type: object
+    description: request for review plan/service/datapass
+    properties:
+      monthlyIncrease:
+        type: number
+        format: float
+        example: 22.12
+        pattern: .*$
+      currentBillingCycle:
+        type: string
+        example: 2020-03-20
+      nextBillingCycle:
+        type: string
+        example: 2020-03-20
+      todayDate:
+        type: string
+        example: 2020-03-20 
+      addedSocs:
+        type: array
+        items:
+          $ref: '#/definitions/AddedSocsData'
+      removedSocs:
+        type: array
+        items:
+          $ref: '#/definitions/RemovedSocsData'
+  SocsAddedInfo:
+    type: object
+    properties:
+      soc:
+        type: string
+        example: APPLTVOUS
+    required:
+      - soc
+  SocsRemovedInfo:
+    type: object
+    properties:
+      soc:
+        type: string
+        example: APPLTVOUS
+    required:
+      - soc
+  AddedSocsData:
+    type: object
+    description: Service details
+    properties:
+      soc:
+        type: string
+        example: "BTMXP50GB"
+      socName:
+        type: string
+        example: "Go5G PlusUp w/50GB Hotspot"
+      serviceSubType:
+        type: string
+        example: "Data Service"
+      subCategory:
+        type: array
+        items:
+          type: string
+        example: [  "Data Service" ]
+      dataPassGroup:
+        type: string
+        example: "INTERNATIONAL_ROAMING_DATA"        
+      price:
+        type: number
+        format: float
+        example: 9.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 14.99
+        pattern: .*$
+      taxTreatment:
+        type: string
+        example: "TI"
+      socChangeLevel:
+        type: string
+        description: If Monthly data plan changed this feild will determine soc change level
+        example: "UPGRADE"
+      partnerName:
+        type: string
+        description: This feild will come when there are partner benefits like netflix, hulu, apple, paramount
+        example: "APPLE"
+      maxDateRangeLimit:
+        type: integer
+        description: When this field is present, it applies to one-time data passes, prompting the user to either select immediately or choose a date using the date picker. 
+        example: 30
+      effectiveDateTypes:
+        type: array
+        items:
+          type: string
+        example: [ "CURRENT_BILLING_CYCLE","NEXT_BILLING_CYCLE","IMMEDIATELY","DATE_PICKER"]
+  RemovedSocsData:
+    type: object
+    description: Service details
+    properties:
+      soc:
+        type: string
+        example: "CMVTTBV"
+      socName:
+        type: string
+        example: "Scam Shield™ Premium"
+      serviceSubType:
+        type: string
+        example: "Value Added Service"  
+      subCategory:
+        type: array
+        items:
+          type: string
+        example: [  "Caller ID & VMTT" ]
+      price:
+        type: number
+        format: float
+        example: 4
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 4
+        pattern: .*$
+      taxTreatment:
+        type: string
+        example: "TE"
+      conflictingService:
+        type: array
+        description: If a conflicting SOC is present, the user must select the same date as the one chosen for the added SOC by default.
+        items:
+          type: string
+        example: [  "BTMXP50GB" ]
+      pendingChangeEffectiveDate:
+        type: string
+        description: If it is a future Dated soc removal for trail subscriptions, if this feild comes in response than you have to use the date in this feild for effectiveDate removal for that particular soc.
+        example: 2020-03-20
+      effectiveDateTypes:
+        type: array
+        description: If there are no conflicting soc and not a trail soc, use this feild
+        items:
+          type: string
+        example: [ "CURRENT_BILLING_CYCLE","NEXT_BILLING_CYCLE","IMMEDIATELY"]
+  PartnerSubscriptionRequest:
+    type: object
+    properties:
+      msisdn:
+        type: string
+        example: "1234567890"
+      partnerSocDetails:
+        type: array
+        items:
+          $ref: '#/definitions/PartnerSocData'
+    required:
+      - msisdn
+      - partnerSocDetails
+  PartnerSubscriptionResponse:
+    type: object
+    properties:
+      subscriptionDetails:
+        type: array
+        items:
+          $ref: '#/definitions/PartnerSubscriptionDetails'
+      partnerFailures:
+        type: array
+        items:
+          $ref: '#/definitions/PartnerFailure'
+  PartnerSocData:
+    type: object
+    properties:
+      partnerName:
+        type: string
+        example: NETFLIX
+      soc:
+        type: array
+        items:
+          type: string
+          example: NOADNFLX2
+    required:
+      - partnerName
+      - soc
+  PartnerSubscriptionDetails:
+    type: object
+    properties:
+      soc:
+        type: string
+        example: NOADNFLX2
+      socName:
+        type: string
+        example: Netflix Standard
+      partnerActivationUrl:
+        type: string
+        example: https://
+      provisioningStatus:
+        type: string
+        example: ACTIVE
+      partnerRecoveryUrl:
+        type: string
+        example: https://
+      price:
+        type: number
+        format: float
+        example: 11.99
+        pattern: .*$
+      displayPrice:
+        type: number
+        format: float
+        example: 15.99
+        pattern: .*$
+  PartnerFailure:
+    type: object
+    properties:
+      partnerName:
+        type: string
+        example: 'APPLE'
+      code:
+        type: string
+        example: '003'
+      userMessage:
+        type: string
+        example: 'Unable to retrieve information from backend System, Please re-try later.'
